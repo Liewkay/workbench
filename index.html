@@ -158,11 +158,16 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:var(--l
 input[type="range"]::-moz-range-track{height:6px;background:var(--light-gray);border-radius:3px}
 input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--primary);margin-top:-4px;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sidebar-toggle{position:fixed;top:10px;left:10px;width:36px;height:36px;border-radius:10px;border:none;background:var(--card-bg);box-shadow:var(--shadow);font-size:18px;cursor:pointer;z-index:60;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.sidebar-toggle:active{transform:scale(.9)}
+#app.sidebar-hidden #sidebar{display:none}
+#app.sidebar-hidden #content{width:100%;padding-top:52px}
 </style>
 </head>
 <body>
 <div id="app">
 <nav id="sidebar"></nav>
+<button class="sidebar-toggle" onclick="toggleSidebar()">✕</button>
 <main id="content"></main>
 </div>
 <div id="toast-container"></div>
@@ -1997,6 +2002,15 @@ Store.clear();rerender();toast("✅ 所有数据已清除");
 }
 };
 
+//==================== SIDEBAR TOGGLE ====================
+function toggleSidebar(){
+const app=$("#app");
+app.classList.toggle("sidebar-hidden");
+const hidden=app.classList.contains("sidebar-hidden");
+$(".sidebar-toggle").textContent=hidden?"☰":"✕";
+Store.set("sidebar_hidden",hidden);
+}
+
 //==================== NAVIGATION ====================
 function switchPanel(name){
 if(currentPanel&&Panels[currentPanel]&&Panels[currentPanel].onLeave)Panels[currentPanel].onLeave();
@@ -2082,6 +2096,10 @@ generateAIData();rerender();
 //==================== INIT ====================
 function init(){
 Store.init();
+if(Store.get("sidebar_hidden")){
+$("#app").classList.add("sidebar-hidden");
+$(".sidebar-toggle").textContent="☰";
+}
 renderSidebar();
 rerender();
 // Request notification permission
