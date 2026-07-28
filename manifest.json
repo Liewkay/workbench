@@ -1,0 +1,18 @@
+{
+  "name": "Liewkay's Workbench",
+  "short_name": "工作台",
+  "description": "工作 · 成长 · 每日精进",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eef2ff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
