@@ -153,6 +153,11 @@ input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
 .tag-filter-chip.active{background:var(--accent);color:#fff}
 .sort-bar{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:11px}
 .sort-bar select{width:auto;padding:4px 8px;font-size:11px}
+input[type="range"]{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:60px;height:16px;background:transparent;outline:none;margin:0;padding:0;cursor:pointer}
+input[type="range"]::-webkit-slider-runnable-track{height:6px;background:var(--light-gray);border-radius:3px}
+input[type="range"]::-moz-range-track{height:6px;background:var(--light-gray);border-radius:3px}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--primary);margin-top:-4px;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 </style>
 </head>
 <body>
@@ -541,7 +546,7 @@ return`
 <div class="card" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff">
 <div style="font-size:13px;opacity:.9">📊 今日概览</div>
 <div style="font-size:20px;font-weight:800;margin-top:6px">${dateStr}</div>
-<div style="font-size:12px;opacity:.85;margin-top:4px">🕸️ Liewkay's Workbench · 工作 · 成长 · 每日精进</div>
+<div style="font-size:12px;opacity:.85;margin-top:4px">🕸️ Liewkay's Workbench</div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('plan')">
@@ -1597,7 +1602,7 @@ ${goals.length?goals.map(g=>`<div style="margin-bottom:10px">
 <div style="display:flex;align-items:center;gap:8px">
 <div class="progress-bar" style="flex:1"><div class="fill" style="width:${g.progress}%"></div></div>
 <span style="font-size:12px;font-weight:600">${g.progress}%</span>
-<input type="range" min="0" max="100" value="${g.progress}" style="width:60px" oninput="Panels.learning.updateProgress(${g.id},this.value)">
+<input type="range" min="0" max="100" value="${g.progress}" oninput="Panels.learning.updateProgress(${g.id},this.value)">
 </div>
 </div>`).join(""):"<div class='empty'>暂无目标</div>"}
 <button class="btn btn-sm btn-outline btn-block" onclick="Panels.learning.addGoal()">➕ 添加目标</button>
