@@ -162,11 +162,28 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 .sidebar-toggle:active{transform:scale(.9)}
 #app.sidebar-hidden #sidebar{display:none}
 #app.sidebar-hidden #content{width:100%;padding-top:52px}
+#sidebar-overlay{display:none}
+html,body{overflow-x:hidden}
+@media (max-width:768px){
+#app{position:relative}
+#sidebar{position:fixed;top:0;left:0;height:100%;height:100dvh;width:70%;min-width:180px;max-width:260px;z-index:100;transform:translateX(-100%);transition:transform .25s ease;border-right:none}
+#app.sidebar-open #sidebar{transform:translateX(0)}
+#sidebar-overlay{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:99;opacity:0;pointer-events:none;transition:opacity .25s}
+#app.sidebar-open #sidebar-overlay{opacity:1;pointer-events:auto}
+#content{width:100%!important;padding-top:52px}
+.sidebar-toggle{display:flex}
+}
+@media (min-width:769px){
+.sidebar-toggle{display:flex}
+#sidebar-overlay{display:none!important}
+#app.sidebar-open #sidebar{transform:none}
+}
 </style>
 </head>
 <body>
 <div id="app">
 <nav id="sidebar"></nav>
+<div id="sidebar-overlay" onclick="closeSidebarDrawer()"></div>
 <button class="sidebar-toggle" onclick="toggleSidebar()">✕</button>
 <main id="content"></main>
 </div>
@@ -281,7 +298,7 @@ const VOICES=["zh-CN-XiaoxiaoNeural","zh-CN-YunxiNeural","zh-CN-YunyangNeural","
 
 const MENU=[
 {category:"工作",items:[
-{id:"overview",icon:"📊",label:"概览"},
+{id:"overview",icon:"📊",label:"总览"},
 {id:"xhs",icon:"🎈",label:"小红书"},
 {id:"aihot",icon:"🔥",label:"热点新闻"},
 {id:"plan",icon:"🗓️",label:"今日计划"},
@@ -527,53 +544,98 @@ let currentPanel="overview";
 
 const Panels={};
 
-// ---- 0. 概览 ----
+// ---- 0. 总览 ----
 Panels.overview={
 render(){
 const now=new Date();
 const weekDays=["日","一","二","三","四","五","六"];
-const dateStr=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 周${weekDays[now.getDay()]}`;
+const dateStr=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 周${weekDays[now.getDay()]}`,today=todayKey();
 
 const tasks=Store.get("todayTasks");
-const todoCount=tasks.filter(t=>!t.done).length;
-const notes=Store.get("xhsNotes");
-const drafts=notes.filter(n=>n.status==="草稿").length;
-const douyinFavs=Store.get("douyinFavorites").length;
+const todoDone=tasks.filter(t=>t.done).length,todoTotal=tasks.length;
+const todoRate=todoTotal?Math.round(todoDone/todoTotal*100):0;
 
-const weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay());weekStart.setHours(0,0,0,0);
-const learningRecords=Store.get("learningRecords").filter(r=>new Date(r.date)>=weekStart);
-const learnMinutes=learningRecords.reduce((s,r)=>s+r.duration,0);
-const checkins=Store.get("checkins").filter(c=>new Date(c.time)>=weekStart).length;
+const checkins=Store.get("checkins").filter(c=>c.time&&c.time.slice(0,10)===today);
+const habitDone=checkins.length;
+
+const weights=Store.get("weightRecords");
+const latestWeight=weights.length?weights[0].weight:null;
+
+const reviews=Store.get("dailyReviews");
+const todayReview=reviews.find(r=>r.date===today);
+
+const xhsNotes=Store.get("xhsNotes");
+const xhsDrafts=xhsNotes.filter(n=>n.status==="草稿").length;
+const xhsPublished=xhsNotes.filter(n=>n.status==="已发布").length;
 
 const ai=getAIHotData();
+const hotCount=ai&&ai.news?ai.news.length:0;
+
+const douyinFavs=Store.get("douyinFavorites").length;
+
+const goals=Store.get("learningGoals");
+const learnProgress=goals.length?Math.round(goals.reduce((s,g)=>s+g.progress,0)/goals.length):0;
+const todayLearn=Store.get("learningRecords").filter(r=>r.date&&r.date.slice(0,10)===today).reduce((s,r)=>s+r.duration,0);
+
+const weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay());weekStart.setHours(0,0,0,0);
+const weeklyReviews=Store.get("weeklyReviews");
+const thisWeekReview=weeklyReviews.find(r=>{
+if(!r.date)return false;
+const d=new Date(r.date);
+return d>=weekStart;
+});
 
 return`
 <div class="card" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff">
-<div style="font-size:13px;opacity:.9">📊 今日概览</div>
+<div style="font-size:13px;opacity:.9">📊 今日总览</div>
 <div style="font-size:20px;font-weight:800;margin-top:6px">${dateStr}</div>
 <div style="font-size:12px;opacity:.85;margin-top:4px">🕸️ Liewkay's Workbench</div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
 <div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('plan')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${todoCount}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">📋 待办行程</div>
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${todoRate}%</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">📋 待办完成率</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">${todoDone}/${todoTotal}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('diet')">
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${habitDone}</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">🍴 今日习惯打卡</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">最新体重 ${latestWeight?latestWeight+'kg':'未记录'}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('daily')">
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${todayReview?'✅':'—'}</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">📈 今日复盘</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">${todayReview?'已完成':'未复盘'}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('weekly')">
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${thisWeekReview?'✅':'—'}</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">📊 本周复盘</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">${thisWeekReview?'已完成':'未复盘'}</div>
 </div>
 <div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('xhs')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${drafts}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">📝 小红书草稿</div>
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${xhsDrafts}</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">🎈 小红书草稿</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">已发布 ${xhsPublished}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('aihot')">
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${hotCount}</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">🔥 热点新闻</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">今日更新</div>
 </div>
 <div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('douyin')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${douyinFavs}</div>
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${douyinFavs}</div>
 <div style="font-size:12px;color:var(--gray);margin-top:4px">🌱 抖音收藏</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">条收藏</div>
 </div>
 <div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('learning')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${learnMinutes}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">🪸 本周学习(分)</div>
+<div style="font-size:22px;font-weight:800;color:var(--accent)">${learnProgress}%</div>
+<div style="font-size:12px;color:var(--gray);margin-top:4px">🪸 学习目标进度</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px">今日学习 ${todayLearn}分钟</div>
 </div>
 </div>
 <div class="card">
 <div class="card-title">🔥 今日热点速递 <button class="btn btn-sm btn-outline" style="margin-left:auto" onclick="switchPanel('aihot')">查看全部</button></div>
-${ai.news.slice(0,3).map(n=>`<div style="padding:8px 0;border-bottom:1px solid var(--bg-light);font-size:13px"><span class="heat">${"🔥".repeat(Math.min(n.heat,3))}</span> ${n.title}</div>`).join("")}
+${ai&&ai.news?ai.news.slice(0,3).map(n=>`<div style="padding:8px 0;border-bottom:1px solid var(--bg-light);font-size:13px"><span class="heat">${"🔥".repeat(Math.min(n.heat,3))}</span> ${n.title}</div>`).join(""):'<div class="empty">暂无热点数据</div>'}
 </div>
 <div class="card">
 <div class="card-title">📋 今日行程 <button class="btn btn-sm btn-outline" style="margin-left:auto" onclick="switchPanel('plan')">管理</button></div>
@@ -583,20 +645,12 @@ ${tasks.slice(0,4).map(t=>`<div style="display:flex;align-items:center;gap:8px;p
 ${t.done?"✅":""}
 </div>`).join("")}
 ${tasks.length>4?`<div style="text-align:center;margin-top:8px;font-size:12px;color:var(--gray)">还有 ${tasks.length-4} 项</div>`:""}
-</div>
-<div class="card" style="background:var(--bg-light)">
-<div class="card-title">💪 本周打卡</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<span class="tag tag-green">学习 ${learningRecords.length} 次</span>
-<span class="tag tag-orange">打卡 ${checkins} 次</span>
-</div>
 </div>`;
 },
 init(){
 $("#global-fab").classList.add("hidden");
 }
 };
-
 // ---- 1. 今日计划 ----
 Panels.plan={
 render(){
@@ -2003,12 +2057,24 @@ Store.clear();rerender();toast("✅ 所有数据已清除");
 };
 
 //==================== SIDEBAR TOGGLE ====================
+function isMobile(){return window.innerWidth<=768}
 function toggleSidebar(){
 const app=$("#app");
+if(isMobile()){
+app.classList.toggle("sidebar-open");
+const open=app.classList.contains("sidebar-open");
+$(".sidebar-toggle").textContent=open?"✕":"☰";
+}else{
 app.classList.toggle("sidebar-hidden");
 const hidden=app.classList.contains("sidebar-hidden");
 $(".sidebar-toggle").textContent=hidden?"☰":"✕";
 Store.set("sidebar_hidden",hidden);
+}
+}
+function closeSidebarDrawer(){
+const app=$("#app");
+app.classList.remove("sidebar-open");
+$(".sidebar-toggle").textContent="☰";
 }
 
 //==================== NAVIGATION ====================
@@ -2016,6 +2082,7 @@ function switchPanel(name){
 if(currentPanel&&Panels[currentPanel]&&Panels[currentPanel].onLeave)Panels[currentPanel].onLeave();
 currentPanel=name;
 $$("#sidebar .nav-item").forEach(el=>el.classList.toggle("active",el.dataset.panel===name));
+if(isMobile())closeSidebarDrawer();
 rerender();
 }
 function rerender(){
@@ -2096,7 +2163,10 @@ generateAIData();rerender();
 //==================== INIT ====================
 function init(){
 Store.init();
-if(Store.get("sidebar_hidden")){
+if(isMobile()){
+$("#app").classList.remove("sidebar-hidden","sidebar-open");
+$(".sidebar-toggle").textContent="☰";
+}else if(Store.get("sidebar_hidden")){
 $("#app").classList.add("sidebar-hidden");
 $(".sidebar-toggle").textContent="☰";
 }
@@ -2117,6 +2187,21 @@ navigator.wakeLock.request("screen").catch(()=>{});
 }
 }
 document.addEventListener("DOMContentLoaded",init);
+window.addEventListener("resize",()=>{
+if(isMobile()){
+$("#app").classList.remove("sidebar-hidden");
+if(!$("#app").classList.contains("sidebar-open"))$(".sidebar-toggle").textContent="☰";
+}else{
+$("#app").classList.remove("sidebar-open");
+if(Store.get("sidebar_hidden")){
+$("#app").classList.add("sidebar-hidden");
+$(".sidebar-toggle").textContent="☰";
+}else{
+$("#app").classList.remove("sidebar-hidden");
+$(".sidebar-toggle").textContent="✕";
+}
+}
+});
 // Prevent modal close on tap outside content
 $("#modal-overlay").addEventListener("click",e=>{if(e.target.id==="modal-overlay")closeModal()});
 </script>
