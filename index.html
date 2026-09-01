@@ -6,164 +6,421 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="工作台">
-<meta name="theme-color" content="#2563eb">
+<meta name="theme-color" content="#6366f1">
 <link rel="manifest" href="manifest.json">
 <title>工作台</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
---primary:#2563eb;--primary-dark:#1d4ed8;--accent:#dc2626;--accent-dark:#b91c1c;
---bg-light:#eef2ff;--bg-red:#fef2f2;--text-dark:#1e293b;
---card-bg:#ffffff;--highlight:#dbeafe;--highlight-red:#fee2e2;--bg-soft:#f8fafc;
---gray:#64748b;--light-gray:#f1f5f9;
---orange:#ff9500;--red:#dc2626;--shadow:0 2px 8px rgba(0,0,0,.08);
+/* 身份色：Jane 紫粉（治愈系） */
+--primary:#6366f1;--primary-600:#4f46e5;--primary-dark:#4338ca;
+--primary-50:#eef2ff;--primary-100:#e0e7ff;--primary-200:#c7d2fe;
+--accent:#ec4899;--accent-600:#db2777;--accent-dark:#be185d;
+--accent-50:#fdf2f8;--accent-100:#fce7f3;--accent-200:#fbcfe8;
+--violet:#8b5cf6;--violet-50:#f5f3ff;--violet-100:#ede9fe;
+--magenta:#d946ef;
+--mint:#10b981;--mint-50:#ecfdf5;--mint-100:#d1fae5;
+--sky:#0ea5e9;--sky-50:#f0f9ff;--sky-100:#e0f2fe;
+--coral:#fb7185;--coral-50:#fff1f2;
+--orange:#f97316;--orange-50:#fff7ed;--orange-100:#ffedd5;
+/* 表面与背景（Jane 浅薰衣草） */
+--bg:#f5f3ff;--bg-soft:#ede9fe;--bg-pink:#fdf4ff;
+--surface:#ffffff;--surface-2:#faf7ff;--surface-3:#f3f0ff;
+/* 边框 */
+--border:#ede9fe;--border-strong:#ddd6fe;--border-soft:rgba(99,102,241,.08);
+/* 文本 */
+--text-1:#1e1b4b;--text-2:#4c1d95;--text-3:#7c3aed;--text-muted:#6b7280;
+/* 兼容 */
+--bg-light:#f5f3ff;--bg-red:#fdf2f8;--text-dark:#1e1b4b;
+--card-bg:#ffffff;--highlight:#ede9fe;--highlight-red:#fce7f3;
+--gray:#6b7280;--light-gray:#f3f0ff;--red:#ec4899;
+/* 圆角 */
+--r-sm:10px;--r-md:14px;--r-lg:20px;--r-xl:28px;--r-pill:999px;
+/* 间距 */
+--sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;
+/* 字阶 */
+--fs-xs:11px;--fs-sm:12px;--fs-md:14px;--fs-lg:16px;--fs-xl:18px;--fs-2xl:22px;--fs-display:32px;
+/* 阴影（柔） */
+--shadow-1:0 1px 2px rgba(99,102,241,.04);
+--shadow-2:0 4px 14px rgba(99,102,241,.06),0 1px 3px rgba(99,102,241,.04);
+--shadow-3:0 12px 32px rgba(99,102,241,.10);
+--shadow:var(--shadow-2);
+/* 玻璃 */
+--glass:rgba(255,255,255,.78);--glass-border:rgba(255,255,255,.6);
+/* 渐变 */
+--grad-primary:linear-gradient(135deg,#6366f1 0%,#8b5cf6 55%,#ec4899 100%);
+--grad-violet:linear-gradient(135deg,#a78bfa 0%,#6366f1 100%);
+--grad-pink:linear-gradient(135deg,#f472b6 0%,#a78bfa 100%);
+--grad-soft:linear-gradient(135deg,#f5f3ff 0%,#fdf2f8 100%);
+--grad-hero:linear-gradient(135deg,#7c3aed 0%,#c026d3 50%,#ec4899 100%);
+/* 平台胶囊色（真实品牌色） */
+--plat-dy:#000000;
+--plat-xhs:#e11d48;--plat-xhs-bg:#fff1f2;--plat-xhs-bd:#fecdd3;
+--plat-bili:#1d4ed8;--plat-bili-bg:#e0f2fe;--plat-bili-bd:#bae6fd;
+--plat-ks:#ea580c;--plat-ks-bg:#fff7ed;--plat-ks-bd:#fed7aa;
+--plat-wx:#16a34a;--plat-wx-bg:#f0fdf4;--plat-wx-bd:#bbf7d0;
+--plat-db:#16a34a;--plat-db-bg:#ecfdf5;--plat-db-bd:#a7f3d0;
+--plat-xmly:#ea580c;--plat-xmly-bg:#fff7ed;--plat-xmly-bd:#fed7aa;
 }
-html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;color:var(--text-dark);background:var(--bg-light);touch-action:manipulation}
-#app{display:flex;height:100%;height:100dvh}
-#sidebar{width:30%;min-width:110px;max-width:140px;background:linear-gradient(180deg,#fff 0%,var(--bg-soft) 100%);display:flex;flex-direction:column;overflow-y:auto;border-right:1px solid var(--bg-light);padding-top:env(safe-area-inset-top)}
-.sidebar-header{display:flex;flex-direction:column;align-items:flex-start;padding:14px 8px 12px;border-bottom:1px solid var(--bg-light)}
-.sidebar-title-row{display:flex;align-items:center;gap:4px;width:fit-content}
-.sidebar-logo{font-size:24px;line-height:1;flex-shrink:0}
-.sidebar-title{font-size:13px;font-weight:800;color:var(--text-dark);line-height:1.2;letter-spacing:.3px}
-.sidebar-tagline{font-size:9px;color:var(--gray);margin-top:1px;white-space:nowrap;width:100%;text-align:justify;text-align-last:justify;-webkit-text-align-last:justify;letter-spacing:1px}
-.nav-item{display:flex;flex-direction:row;align-items:center;padding:12px 8px;cursor:pointer;transition:all .2s;border:none;background:none;font-size:14px;color:var(--text-dark);gap:8px;flex-shrink:0;white-space:nowrap;text-align:left}
-.nav-item .icon{font-size:14px;line-height:1;flex-shrink:0}
-.nav-category{padding:14px 8px 4px;border-bottom:1px dashed var(--bg-light);margin-bottom:4px}
-.nav-category:first-child{padding-top:8px}
-.nav-category-title{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:2px}
-.nav-category-desc{font-size:10px;color:var(--gray);margin-bottom:6px}
-.nav-item.active{background:var(--highlight-red);color:var(--accent-dark);font-weight:600;border-left:3px solid var(--accent);padding-left:5px}
-.nav-item:active{background:var(--bg-light)}
-#content{flex:1;overflow-y:auto;background:var(--bg-soft);-webkit-overflow-scrolling:touch;padding:10px 10px 80px 10px}
+html,body{height:100%;overflow-x:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:14px;color:var(--text-dark);background:var(--bg);touch-action:manipulation}
+body{overflow-y:auto}
+
+/* ============== 顶部 AppBar（Jane 风格） ============== */
+.app-bar{position:fixed;top:0;left:0;right:0;height:54px;display:flex;align-items:center;gap:10px;padding:0 12px;padding-top:env(safe-area-inset-top);background:var(--bg);z-index:50}
+.app-bar-menu{width:36px;height:36px;border-radius:12px;background:var(--primary-50);color:var(--primary-dark);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.app-bar-menu:active{transform:scale(.92)}
+.app-bar-title{font-size:17px;font-weight:800;color:var(--primary-dark);letter-spacing:.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.app-bar-date{font-size:13px;color:var(--text-1);font-weight:600;margin-right:6px;display:flex;align-items:center;gap:4px}
+.app-bar-home{width:42px;height:36px;border-radius:14px;background:linear-gradient(135deg,#fce7f3,#ede9fe);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.app-bar-home:active{transform:scale(.92)}
+
+/* ============== 底部 TabBar ============== */
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:60px;padding-bottom:env(safe-area-inset-bottom);background:var(--bg);border-top:1px solid var(--border);display:flex;z-index:40}
+.tab-bar-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;color:var(--text-muted);cursor:pointer;transition:all .2s;border:none;background:none;padding:6px 2px;font-weight:600}
+.tab-bar-item .tab-icon{font-size:22px;line-height:1;transition:transform .2s}
+.tab-bar-item.active{color:var(--primary-dark)}
+.tab-bar-item.active .tab-icon{transform:scale(1.08)}
+.tab-bar-item:active{transform:scale(.94)}
+.tab-bar-item.tab-home.active .tab-icon{color:#16a34a}
+.tab-bar-item.tab-plan.active .tab-icon{color:#10b981}
+.tab-bar-item.tab-idea.active .tab-icon{color:#f59e0b}
+.tab-bar-item.tab-fit.active .tab-icon{color:#ec4899}
+.tab-bar-item.tab-all.active .tab-icon{color:var(--primary-dark)}
+
+/* ============== 主区滚动容器 ============== */
+#app{display:flex;height:100%;height:100dvh;position:relative;padding-top:54px;padding-bottom:60px}
+#content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px 24px;background:transparent}
 .panel{display:none;animation:fadeIn .25s ease}
 .panel.active{display:block}
+.panel{max-width:560px;margin:0 auto}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--card-bg);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
-.card-title{font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.section-title{font-size:13px;font-weight:600;color:var(--gray);margin:14px 0 8px;padding-left:4px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:8px 16px;border-radius:10px;border:none;font-size:13px;cursor:pointer;transition:all .2s;background:var(--primary);color:#fff;font-weight:600}
-.btn:active{transform:scale(.95)}
-.btn-sm{padding:5px 12px;font-size:12px;border-radius:8px}
-.btn-outline{background:#fff;color:var(--primary);border:1px solid var(--primary)}
-.btn-danger{background:var(--red)}
-.btn-gray{background:var(--gray)}
-.btn-block{width:100%;padding:11px}
-input,textarea,select{width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:10px;font-size:13px;background:#fff;color:var(--text-dark);font-family:inherit;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--primary)}
+
+/* ============== 抽屉 Drawer（Jane 风格：分组+图标盒+active 渐变） ============== */
+#sidebar{position:fixed;top:0;left:0;height:100%;height:100dvh;width:80%;max-width:320px;background:linear-gradient(180deg,#faf7ff 0%,#f5f3ff 100%);z-index:200;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:env(safe-area-inset-top);border-radius:0 24px 24px 0;box-shadow:0 24px 60px rgba(99,102,241,.16)}
+#app.sidebar-open #sidebar{transform:translateX(0)}
+#sidebar-overlay{display:block;position:fixed;inset:0;background:rgba(99,102,241,.20);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:199;opacity:0;pointer-events:none;transition:opacity .25s}
+#app.sidebar-open #sidebar-overlay{opacity:1;pointer-events:auto}
+.drawer-header{display:flex;align-items:center;gap:10px;padding:18px 18px 12px}
+.drawer-header .drawer-menu-btn{width:36px;height:36px;border-radius:12px;background:var(--primary-50);color:var(--primary-dark);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.drawer-header .drawer-title{font-size:15px;font-weight:800;color:var(--primary-dark);letter-spacing:.5px}
+.drawer-section{padding:14px 14px 4px}
+.drawer-section:first-of-type{padding-top:6px}
+.drawer-section-title{font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1.5px;margin:4px 8px 6px;text-transform:uppercase;opacity:.85}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:16px;cursor:pointer;transition:all .2s;border:none;background:none;font-size:13px;color:var(--text-1);width:100%;text-align:left;margin:2px 0;font-weight:600}
+.nav-item:active{transform:scale(.98)}
+.nav-item .nav-icon-box{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--primary-50);transition:all .2s}
+.nav-item.active{background:var(--grad-primary);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,.30)}
+.nav-item.active .nav-icon-box{background:rgba(255,255,255,.25);color:#fff;box-shadow:none}
+.drawer-sync{padding:14px 14px 22px}
+.drawer-sync .btn{width:100%;font-size:13px;padding:11px 14px}
+
+/* ============== 卡片 ============== */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:12px;box-shadow:var(--shadow-1)}
+.card:hover{box-shadow:var(--shadow-2)}
+.card-title{font-size:15px;font-weight:800;color:var(--text-1);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card-title .emoji{font-size:18px}
+.section-title{font-size:14px;font-weight:800;color:var(--text-1);margin:18px 4px 10px;display:flex;align-items:center;gap:6px}
+.section-subtitle{font-size:12px;color:var(--text-muted);margin:-6px 4px 12px;font-weight:500}
+.divider-soft{height:1px;background:var(--border);margin:14px -16px}
+
+/* ============== 按钮 ============== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 20px;border-radius:var(--r-pill);border:none;font-size:13px;cursor:pointer;transition:all .2s;background:var(--grad-primary);color:#fff;font-weight:700;box-shadow:0 3px 10px rgba(99,102,241,.25)}
+.btn:active{transform:scale(.96)}
+.btn-sm{padding:6px 14px;font-size:11px}
+.btn-block{width:100%;padding:13px;font-size:14px}
+.btn-outline{background:var(--surface);color:var(--primary);border:1px solid var(--primary);box-shadow:none}
+.btn-outline:hover{background:var(--primary-50)}
+.btn-soft{background:var(--primary-50);color:var(--primary-dark);box-shadow:none}
+.btn-danger{background:linear-gradient(135deg,#fb7185 0%,#ec4899 100%);box-shadow:0 3px 10px rgba(236,72,153,.25)}
+.btn-gray{background:var(--surface-2);color:var(--text-2);box-shadow:none}
+
+/* ============== 表单 ============== */
+input,textarea,select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:14px;font-size:13px;background:var(--surface-2);color:var(--text-dark);font-family:inherit;outline:none;transition:all .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(99,102,241,.10)}
 textarea{resize:vertical;min-height:60px}
-label{font-size:12px;color:var(--gray);display:block;margin-bottom:4px}
-.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.tag-green{background:var(--highlight);color:var(--primary-dark)}
-.tag-gray{background:var(--light-gray);color:#666}
-.tag-orange{background:#fff3e0;color:var(--orange)}
-.tag-red{background:var(--highlight-red);color:var(--red)}
-.fab{position:fixed;right:16px;bottom:20px;width:50px;height:50px;border-radius:50%;background:var(--accent);color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(220,38,38,.4);cursor:pointer;z-index:50;border:none}
-.fab:active{transform:scale(.9)}
-#toast-container{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;pointer-events:none}
-.toast{background:rgba(0,0,0,.78);color:#fff;padding:10px 20px;border-radius:12px;font-size:13px;margin-bottom:8px;animation:toastIn .3s;white-space:nowrap}
-@keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1}}
-#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
-#modal-overlay.show{display:flex}
-#modal-content{background:#fff;border-radius:16px;padding:18px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto}
-.modal-title{font-size:16px;font-weight:700;margin-bottom:14px;text-align:center}
-.form-group{margin-bottom:12px}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
-.calendar .cal-header{font-size:10px;color:var(--gray);padding:4px 0}
-.calendar .cal-day{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:42px;font-size:11px;padding:3px 0;border-radius:10px;cursor:pointer;line-height:1.1}
-.calendar .cal-day .lunar{font-size:9px;color:var(--gray);margin-top:2px;transform:scale(.92)}
-.calendar .cal-day.today{background:var(--accent);color:#fff;font-weight:700}
-.calendar .cal-day.today .lunar{color:#fff;opacity:.9}
-.calendar .cal-day.other{color:#ccc}
-.progress-bar{height:8px;background:var(--light-gray);border-radius:4px;overflow:hidden}
-.progress-bar .fill{height:100%;background:var(--accent);border-radius:4px;transition:width .3s}
-.toggle{position:relative;width:44px;height:24px;background:#ccc;border-radius:12px;cursor:pointer;transition:all .2s;flex-shrink:0}
-.toggle.on{background:var(--accent)}
+label{font-size:12px;color:var(--gray);display:block;margin-bottom:4px;font-weight:600}
+
+/* ============== 通用标签 ============== */
+.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:700;letter-spacing:.3px}
+.tag-green{background:var(--mint-50);color:#047857}
+.tag-gray{background:var(--surface-3);color:var(--text-3)}
+.tag-orange{background:var(--orange-50);color:#ea580c}
+.tag-red{background:var(--coral-50);color:var(--accent-dark)}
+.tag-purple{background:var(--violet-50);color:var(--primary-dark)}
+.tag-pink{background:var(--accent-100);color:var(--accent-dark)}
+.tag-sky{background:var(--sky-50);color:#0369a1}
+
+/* ============== 平台胶囊（Jane 真实品牌色） ============== */
+.platform-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:var(--r-pill);font-size:11px;font-weight:700;border:1px solid transparent;line-height:1.4;white-space:nowrap}
+.platform-chip .pc-icon{font-size:11px}
+.platform-chip.dy{background:#000;color:#fff}
+.platform-chip.dy-follow{background:#000;color:#fff}
+.platform-chip.xhs{background:var(--plat-xhs-bg);color:var(--plat-xhs);border-color:var(--plat-xhs-bd)}
+.platform-chip.bili{background:var(--plat-bili-bg);color:var(--plat-bili);border-color:var(--plat-bili-bd)}
+.platform-chip.ks{background:var(--plat-ks-bg);color:var(--plat-ks);border-color:var(--plat-ks-bd)}
+.platform-chip.wx-book{background:var(--plat-wx-bg);color:var(--plat-wx);border-color:var(--plat-wx-bd)}
+.platform-chip.xmly{background:var(--plat-xmly-bg);color:var(--plat-xmly);border-color:var(--plat-xmly-bd)}
+.platform-chip.douban{background:var(--plat-db-bg);color:var(--plat-db);border-color:var(--plat-db-bd)}
+
+/* ============== 分类胶囊 ============== */
+.cat-pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:var(--r-pill);font-size:11px;font-weight:700;letter-spacing:.3px}
+.cat-pill.fitness{background:var(--mint-50);color:#047857}
+.cat-pill.tech{background:var(--sky-50);color:#0369a1}
+.cat-pill.food{background:var(--orange-50);color:#ea580c}
+.cat-pill.lifestyle{background:var(--accent-100);color:var(--accent-dark)}
+.cat-pill.study{background:var(--violet-50);color:var(--primary-dark)}
+.cat-pill.work{background:var(--surface-3);color:var(--text-2)}
+.cat-pill.active{background:var(--grad-primary);color:#fff;box-shadow:0 2px 6px rgba(99,102,241,.30)}
+
+/* ============== 优先级胶囊 ============== */
+.priority-tag{display:inline-flex;align-items:center;padding:2px 10px;border-radius:var(--r-pill);font-size:10px;font-weight:700;letter-spacing:.3px}
+.priority-tag.low{background:var(--sky-50);color:#0369a1}
+.priority-tag.med{background:var(--violet-50);color:var(--primary-dark)}
+.priority-tag.high{background:var(--accent-100);color:var(--accent-dark)}
+
+/* ============== 横幅 banner ============== */
+.banner-pink{background:var(--grad-pink);color:var(--accent-dark);border-radius:var(--r-lg);padding:14px 16px;font-size:13px;font-weight:700;border:1px solid rgba(236,72,153,.12);box-shadow:var(--shadow-1)}
+.banner-violet{background:var(--grad-violet);color:#fff;border-radius:var(--r-lg);padding:14px 16px;font-size:13px;font-weight:700;border:1px solid rgba(124,58,237,.10);box-shadow:var(--shadow-1)}
+.banner-soft{background:var(--surface);border-radius:var(--r-lg);padding:14px 16px;font-size:13px;font-weight:600;border:1px solid var(--border);box-shadow:var(--shadow-1)}
+
+/* ============== 列表行（Jane 待办风格） ============== */
+.list-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px dashed var(--border)}
+.list-row:last-child{border-bottom:none}
+.list-row .checkbox{width:20px;height:20px;border:2px solid var(--border-strong);border-radius:50%;flex-shrink:0;background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.list-row .checkbox.checked{background:var(--grad-primary);border-color:transparent;color:#fff;font-size:12px}
+.divider-dashed{border:none;border-top:1px dashed var(--border);margin:6px 0}
+
+/* ============== 状态点 ============== */
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.done{background:var(--mint)}
+.status-dot.pending{background:var(--orange)}
+.status-dot.todo{background:var(--border-strong)}
+
+/* ============== 日历（Jane 白方块） ============== */
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.calendar .cal-header{font-size:11px;color:var(--text-muted);padding:6px 0;font-weight:700}
+.calendar .cal-day{aspect-ratio:1/1;max-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;border-radius:14px;cursor:pointer;line-height:1.1;background:var(--surface-2);color:var(--text-1);font-weight:600;border:1px solid var(--border);transition:all .2s}
+.calendar .cal-day .lunar{font-size:9px;color:var(--text-muted);margin-top:1px;font-weight:500}
+.calendar .cal-day.today{background:var(--grad-primary);color:#fff;font-weight:800;border-color:transparent;box-shadow:0 4px 10px rgba(99,102,241,.30)}
+.calendar .cal-day.today .lunar{color:rgba(255,255,255,.85)}
+.calendar .cal-day.selected{outline:2px solid var(--primary);outline-offset:-2px}
+.calendar .cal-day.other{color:var(--text-3);opacity:.4}
+.calendar .cal-day:active{transform:scale(.94)}
+
+/* ============== 进度条 / 进度环 ============== */
+.progress-bar{height:8px;background:var(--surface-3);border-radius:5px;overflow:hidden}
+.progress-bar .fill{height:100%;background:var(--grad-primary);border-radius:5px;transition:width .3s}
+.progress-ring{width:84px;height:84px;position:relative;flex-shrink:0}
+.progress-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.progress-ring .ring-bg{fill:none;stroke:rgba(255,255,255,.25);stroke-width:8}
+.progress-ring .ring-fg{fill:none;stroke:#fff;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .5s}
+.progress-ring .ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.progress-ring.compact{width:54px;height:54px}
+.progress-ring.compact .ring-bg,.progress-ring.compact .ring-fg{stroke-width:6}
+.progress-ring.compact .ring-text{font-size:14px}
+
+/* ============== 复选框/开关 ============== */
+input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
+.toggle{position:relative;width:46px;height:26px;background:var(--border-strong);border-radius:13px;cursor:pointer;transition:all .2s;flex-shrink:0}
+.toggle.on{background:var(--grad-primary)}
 .toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:all .2s}
 .toggle.on::after{left:22px}
-.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bg-light);gap:10px}
+
+/* ============== 设置行 ============== */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);gap:10px}
 .setting-row:last-child{border-bottom:none}
-.setting-label{font-size:13px;font-weight:600;flex:1;min-width:0}
-.setting-desc{font-size:11px;color:var(--gray);margin-top:2px}
+.setting-label{font-size:13px;font-weight:700;flex:1;min-width:0}
+.setting-desc{font-size:11px;color:var(--gray);margin-top:3px;line-height:1.5}
 .switch-row{display:flex;align-items:center;gap:10px}
-input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
-.task-item{display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;margin-bottom:6px;background:var(--bg-soft);transition:all .2s}
-.task-item.done{opacity:.5}
+
+/* ============== 任务 ============== */
+.task-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:14px;margin-bottom:6px;background:var(--surface-2);transition:all .2s;border:1px solid transparent}
+.task-item.done{opacity:.55}
 .task-item.done .task-text{text-decoration:line-through;color:var(--gray)}
-.task-time{font-size:12px;font-weight:700;color:var(--primary-dark);min-width:38px}
+.task-time{font-size:12px;font-weight:800;color:var(--primary-dark);min-width:38px}
 .task-text{font-size:13px;flex:1}
-.task-item.hotspot-item{background:linear-gradient(135deg,#fff8e1,#fff3e0);border:1px dashed var(--orange)}
-.task-action-btn{width:28px;height:28px;border-radius:8px;border:none;background:transparent;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.5}
-.task-action-btn:active{transform:scale(.9);background:var(--bg-light);opacity:1}
-.product-card{position:relative;overflow:hidden;background:#fff;border-radius:12px;padding:10px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;gap:10px}
+.task-item.hotspot-item{background:linear-gradient(135deg,var(--orange-50),var(--coral-50));border:1px dashed var(--orange)}
+.task-action-btn{width:28px;height:28px;border-radius:8px;border:none;background:transparent;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.5;color:var(--text-3)}
+.task-action-btn:active{transform:scale(.9);background:var(--bg);opacity:1}
+
+/* ============== 产品卡 / 笔记卡 / 收藏 ============== */
+.product-card{position:relative;overflow:hidden;background:#fff;border-radius:var(--r-md);padding:10px;margin-bottom:8px;box-shadow:var(--shadow-1);display:flex;gap:10px}
 .product-card .swipe-content{display:flex;gap:10px;width:100%;transition:transform .2s}
 .product-card .swipe-actions{position:absolute;right:0;top:0;bottom:0;display:flex}
 .product-card .swipe-actions button{width:64px;border:none;font-size:11px;color:#fff;cursor:pointer}
-.product-thumb{width:54px;height:54px;border-radius:8px;object-fit:cover;background:var(--light-gray);flex-shrink:0}
+.product-thumb{width:54px;height:54px;border-radius:var(--r-sm);object-fit:cover;background:var(--surface-3);flex-shrink:0}
 .product-info{flex:1;min-width:0}
 .product-title{font-size:13px;font-weight:600;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.product-price{color:var(--red);font-weight:700;font-size:14px}
-.xhs-note{background:#fff;border-radius:12px;padding:10px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;gap:10px}
-.xhs-cover{width:50px;height:50px;border-radius:8px;background:var(--bg-light);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.news-item{padding:10px 0;border-bottom:1px solid var(--bg-light)}
+.product-price{color:var(--accent);font-weight:800;font-size:14px}
+.xhs-note{background:var(--surface);border-radius:var(--r-md);padding:10px;margin-bottom:8px;box-shadow:var(--shadow-1);display:flex;gap:10px;border:1px solid var(--border)}
+.xhs-cover{width:50px;height:50px;border-radius:var(--r-sm);background:var(--primary-50);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.news-item{padding:10px 0;border-bottom:1px solid var(--border)}
 .news-item:last-child{border-bottom:none}
-.news-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.news-title{font-size:13px;font-weight:700;margin-bottom:4px}
 .news-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--gray)}
-.heat{color:var(--orange)}
-.suggestion-item{background:var(--bg-soft);border-radius:10px;padding:10px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.heat{color:var(--orange);font-weight:700}
+.suggestion-item{background:var(--surface-2);border-radius:var(--r-md);padding:10px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px dashed var(--border)}
 .suggestion-text{font-size:12px;flex:1;line-height:1.5}
-.diet-record{display:flex;gap:10px;padding:8px;border-radius:8px;background:var(--bg-soft);margin-bottom:6px;align-items:center}
-.diet-photo{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--light-gray)}
-.skill-item{background:var(--bg-soft);border-radius:10px;padding:10px;margin-bottom:8px}
+.diet-record{display:flex;gap:10px;padding:8px;border-radius:var(--r-sm);background:var(--surface-2);margin-bottom:6px;align-items:center}
+.diet-photo{width:44px;height:44px;border-radius:var(--r-sm);object-fit:cover;flex-shrink:0;background:var(--surface-3)}
+.skill-item{background:var(--surface-2);border-radius:var(--r-md);padding:10px;margin-bottom:8px;border:1px solid var(--border)}
 .subtask{display:flex;align-items:center;gap:8px;padding:6px 0 6px 12px;font-size:12px}
-.review-history-item{padding:10px;border-radius:10px;background:var(--bg-soft);margin-bottom:6px;cursor:pointer}
-.review-detail{display:none;margin-top:8px;font-size:12px;line-height:1.6;color:#555}
+.review-history-item{padding:10px;border-radius:var(--r-md);background:var(--surface-2);margin-bottom:6px;cursor:pointer;border:1px solid var(--border)}
+.review-detail{display:none;margin-top:8px;font-size:12px;line-height:1.6;color:var(--text-2)}
 .review-detail.show{display:block}
+
+/* ============== 数字胶囊 ============== */
 .stat-capsule{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
 .mood-btn{font-size:24px;cursor:pointer;padding:8px;border-radius:10px;transition:all .2s}
-.mood-btn.selected{background:var(--highlight)}
+.mood-btn.selected{background:var(--primary-50);box-shadow:inset 0 0 0 1px var(--primary)}
 .mood-btn:active{transform:scale(.9)}
-.cat-tab{padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;white-space:nowrap;transition:all .2s}
-.cat-tab.active{background:var(--accent);color:#fff}
+.cat-tab{padding:5px 14px;border-radius:var(--r-pill);font-size:11px;cursor:pointer;white-space:nowrap;transition:all .2s;background:var(--surface-2);color:var(--text-2)}
+.cat-tab.active{background:var(--grad-primary);color:#fff;box-shadow:0 2px 6px rgba(99,102,241,.30)}
 .hidden{display:none!important}
 .empty{text-align:center;padding:30px 10px;color:var(--gray);font-size:13px}
 .loading{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.countdown-badge{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:10px 14px;border-radius:12px;text-align:center;font-size:13px;font-weight:600}
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:var(--highlight);border-radius:3px}
-.fav-card{background:var(--card-bg);border-radius:12px;padding:12px;margin-bottom:8px;box-shadow:var(--shadow);transition:all .2s;cursor:pointer}
+.countdown-badge{background:var(--grad-primary);color:#fff;padding:10px 14px;border-radius:var(--r-md);text-align:center;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(99,102,241,.25)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--violet);border-radius:4px;opacity:.4}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ============== 收藏卡 ============== */
+.fav-card{background:var(--surface);border-radius:var(--r-md);padding:12px;margin-bottom:8px;box-shadow:var(--shadow-1);transition:all .2s;cursor:pointer;border:1px solid var(--border)}
 .fav-card:active{transform:scale(.98)}
-.fav-card-title{font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;line-height:1.4}
-.fav-card-meta{font-size:11px;color:var(--gray);margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.fav-card-summary{font-size:11px;color:#666;line-height:1.5;margin-bottom:6px;background:var(--bg-soft);padding:6px 8px;border-radius:8px}
+.fav-card-title{font-size:13px;font-weight:700;color:var(--text-1);margin-bottom:4px;line-height:1.4}
+.fav-card-meta{font-size:11px;color:var(--text-3);margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fav-card-summary{font-size:11px;color:var(--text-2);line-height:1.5;margin-bottom:6px;background:var(--surface-2);padding:6px 8px;border-radius:var(--r-sm)}
 .fav-tags-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
-.fav-tag-chip{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;background:var(--highlight);color:var(--primary-dark)}
-.fav-keyword-chip{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;background:var(--highlight-red);color:var(--accent-dark)}
+.fav-tag-chip{padding:2px 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;background:var(--primary-50);color:var(--primary-dark)}
+.fav-keyword-chip{padding:2px 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700;background:var(--accent-100);color:var(--accent-dark)}
 .fav-actions{display:flex;gap:4px;align-items:center;margin-top:6px}
 .fav-detail-row{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start}
-.fav-detail-label{font-size:11px;font-weight:700;color:var(--gray);min-width:56px;flex-shrink:0;padding-top:2px}
+.fav-detail-label{font-size:11px;font-weight:700;color:var(--text-3);min-width:56px;flex-shrink:0;padding-top:2px}
 .fav-detail-value{font-size:12px;color:var(--text-dark);flex:1;min-width:0;word-break:break-all}
-.batch-area{width:100%;min-height:120px;padding:10px;border:1px solid #ddd;border-radius:10px;font-size:12px;background:#fff;font-family:inherit;outline:none;resize:vertical}
-.batch-area:focus{border-color:var(--primary)}
-.import-preview-item{padding:8px;border-radius:8px;background:var(--bg-soft);margin-bottom:6px;font-size:12px}
-.import-preview-item .ipt-title{font-weight:600;margin-bottom:2px}
-.import-preview-item .ipt-meta{font-size:10px;color:var(--gray)}
+.batch-area{width:100%;min-height:120px;padding:12px;border:1px solid var(--border);border-radius:14px;font-size:12px;background:var(--surface-2);font-family:inherit;outline:none;resize:vertical;transition:all .2s}
+.batch-area:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(99,102,241,.10)}
+.import-preview-item{padding:8px 10px;border-radius:var(--r-sm);background:var(--surface-2);margin-bottom:6px;font-size:12px;border:1px solid var(--border)}
+.import-preview-item .ipt-title{font-weight:700;margin-bottom:2px;color:var(--text-1)}
+.import-preview-item .ipt-meta{font-size:10px;color:var(--text-3)}
 .tag-filter-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
-.tag-filter-chip{padding:3px 10px;border-radius:16px;font-size:10px;cursor:pointer;background:var(--light-gray);color:var(--gray);transition:all .2s;white-space:nowrap}
-.tag-filter-chip.active{background:var(--accent);color:#fff}
+.tag-filter-chip{padding:4px 12px;border-radius:var(--r-pill);font-size:10px;cursor:pointer;background:var(--surface-2);color:var(--text-3);transition:all .2s;white-space:nowrap;border:1px solid var(--border)}
+.tag-filter-chip.active{background:var(--grad-primary);color:#fff;border-color:transparent;box-shadow:0 2px 6px rgba(99,102,241,.30)}
 .sort-bar{display:flex;gap:6px;align-items:center;margin-bottom:8px;font-size:11px}
 .sort-bar select{width:auto;padding:4px 8px;font-size:11px}
-input[type="range"]{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:60px;height:16px;background:transparent;outline:none;margin:0;padding:0;cursor:pointer}
-input[type="range"]::-webkit-slider-runnable-track{height:6px;background:var(--light-gray);border-radius:3px}
-input[type="range"]::-moz-range-track{height:6px;background:var(--light-gray);border-radius:3px}
-input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--primary);margin-top:-4px;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+
+/* ============== Range Slider ============== */
+input[type="range"]{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:72px;height:20px;background:transparent;outline:none;margin:0;padding:0;cursor:pointer}
+input[type="range"]::-webkit-slider-runnable-track{height:8px;background:var(--surface-2);border-radius:4px;border:1px solid var(--border)}
+input[type="range"]::-moz-range-track{height:8px;background:var(--surface-2);border-radius:4px;border:1px solid var(--border)}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--grad-primary);margin-top:-7px;cursor:pointer;border:2px solid #fff;box-shadow:0 2px 6px rgba(99,102,241,.40)}
+input[type="range"]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid #fff;box-shadow:0 2px 6px rgba(99,102,241,.40)}
+
+/* ============== 浮按 ============== */
+.fab{position:fixed;right:16px;bottom:74px;width:54px;height:54px;border-radius:50%;background:var(--grad-primary);color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(99,102,241,.40);cursor:pointer;z-index:50;border:none}
+.fab:active{transform:scale(.9)}
+
+/* ============== Toast / Modal ============== */
+#toast-container{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:none}
+.toast{background:rgba(30,27,75,.85);color:#fff;padding:10px 20px;border-radius:14px;font-size:13px;margin-bottom:8px;animation:toastIn .3s;white-space:nowrap;backdrop-filter:blur(8px)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1}}
+#modal-overlay{position:fixed;inset:0;background:rgba(99,102,241,.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
+#modal-overlay.show{display:flex}
+#modal-content{background:#fff;border-radius:18px;padding:20px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-3)}
+.modal-title{font-size:16px;font-weight:800;margin-bottom:14px;text-align:center;color:var(--text-1)}
+.form-group{margin-bottom:12px}
+
+/* ============== 总览 Hero（Jane 风：浅紫白底+圆环） ============== */
+.hero{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px;box-shadow:var(--shadow-1);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(236,72,153,.18) 0%,transparent 70%);filter:blur(10px);pointer-events:none}
+.hero::after{content:'';position:absolute;left:-30px;bottom:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);filter:blur(10px);pointer-events:none}
+.hero-greeting{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:.5px;position:relative}
+.hero-title{font-size:16px;font-weight:800;color:var(--text-1);margin-top:4px;position:relative;line-height:1.4}
+.hero-stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;position:relative}
+.hero-sync{margin-top:14px;display:flex;justify-content:flex-end;position:relative}
+
+/* ============== Hero 渐变卡（用于私厨/灵感 等） ============== */
+.hero-gradient{background:var(--grad-hero);color:#fff;border-radius:var(--r-xl);padding:18px;box-shadow:0 12px 30px rgba(124,58,237,.30);position:relative;overflow:hidden}
+.hero-gradient::before{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.18);filter:blur(8px);pointer-events:none}
+.hero-gradient .hg-title{font-size:16px;font-weight:800;letter-spacing:.3px;position:relative}
+.hero-gradient .hg-sub{font-size:12px;opacity:.92;margin-top:4px;position:relative}
+.hero-gradient .hg-list{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;position:relative}
+.hero-gradient .hg-list-item{font-size:12px;line-height:1.6;opacity:.95}
+.hero-gradient .hg-platforms{margin-top:14px;display:flex;gap:6px;flex-wrap:wrap;position:relative}
+.hero-gradient .platform-chip.dy-follow,
+.hero-gradient .platform-chip.xhs,
+.hero-gradient .platform-chip.bili,
+.hero-gradient .platform-chip.ks{background:rgba(255,255,255,.95)}
+
+/* ============== 数字强调 ============== */
+.stat-num{font-size:22px;font-weight:800;background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;line-height:1.1;letter-spacing:-.5px}
+.stat-label{font-size:11px;color:var(--text-2);margin-top:4px;font-weight:600}
+
+/* ============== App 快捷入口 ============== */
+.app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.app-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--border);cursor:pointer;transition:all .2s;text-decoration:none;color:inherit}
+.app-tile:active{transform:scale(.94);background:var(--primary-50)}
+.app-tile .app-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--surface);border:1px solid var(--border)}
+.app-tile .app-name{font-size:11px;color:var(--text-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.app-tile .app-del{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;border:none;background:var(--coral-50);color:var(--accent-dark);font-size:11px;line-height:1;cursor:pointer;opacity:0;transition:opacity .15s}
+.app-tile:hover .app-del,.app-tile:active .app-del{opacity:1}
+.app-add{gap:6px;color:var(--text-3);font-size:11px}
+.app-add .app-icon{background:var(--surface-2);border:1px dashed var(--border-strong);font-size:20px}
+
+/* ============== 选题/创意卡片（Jane 风） ============== */
+.idea-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:10px;box-shadow:var(--shadow-1)}
+.idea-card-title{font-size:14px;font-weight:800;color:var(--text-1);line-height:1.4}
+.idea-card-meta{margin-top:6px;font-size:12px;color:var(--text-2);line-height:1.5}
+.idea-card-meta .idea-tip{color:var(--primary-dark);font-weight:700}
+.idea-card-trend{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:var(--r-pill);font-size:10px;font-weight:700}
+.idea-card-trend.up{background:var(--mint-50);color:#047857}
+.idea-card-trend.hot{background:var(--orange-50);color:#ea580c}
+.idea-card-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+
+/* ============== 步骤列表（圆圈编号） ============== */
+.steps{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.step{display:flex;gap:8px;font-size:12px;line-height:1.6;color:var(--text-1)}
+.step .step-no{width:18px;height:18px;border-radius:50%;background:var(--primary-50);color:var(--primary-dark);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+
+/* ============== 段标签（小节标号） ============== */
+.section-badge{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:800;color:var(--text-1);margin:18px 4px 8px}
+.section-badge .badge-num{width:24px;height:24px;border-radius:8px;background:var(--grad-primary);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.section-badge .badge-tag{margin-left:auto;background:var(--accent-100);color:var(--accent-dark);padding:2px 10px;border-radius:var(--r-pill);font-size:10px;font-weight:700}
+
+/* ============== 媒体类型标签 ============== */
+.source-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:700;background:var(--primary-50);color:var(--primary-dark)}
+.source-tag.hot{background:var(--orange-50);color:#ea580c}
+.source-tag.media{background:var(--accent-100);color:var(--accent-dark)}
+
+/* ============== 响应式 ============== */
+@media (min-width:769px){
+.app-bar{padding-left:24px;padding-right:24px}
+#content{padding-left:24px;padding-right:24px}
+#sidebar{width:320px}
+}
+@media (max-width:380px){
+.app-grid{grid-template-columns:repeat(3,1fr)}
+.tab-bar-item{font-size:9px}
+.tab-bar-item .tab-icon{font-size:18px}
+}
 </style>
 </head>
 <body>
 <div id="app">
+<!-- 顶部 AppBar（Jane 风格） -->
+<header class="app-bar">
+  <button class="app-bar-menu" onclick="toggleSidebar()" aria-label="菜单">☰</button>
+  <div class="app-bar-title">Jane 的工作台</div>
+  <div class="app-bar-date"><span id="app-bar-date-text">—</span></div>
+  <button class="app-bar-home" onclick="goHome()" aria-label="首页">🏠</button>
+</header>
+<!-- 抽屉 -->
 <nav id="sidebar"></nav>
+<div id="sidebar-overlay" onclick="closeSidebarDrawer()"></div>
+<!-- 主区 -->
 <main id="content"></main>
+<!-- 底部 TabBar -->
+<nav class="tab-bar" id="tab-bar"></nav>
 </div>
 <div id="toast-container"></div>
 <div id="modal-overlay"><div id="modal-content"></div></div>
@@ -275,20 +532,48 @@ const DEFAULT_TASKS=[
 const VOICES=["zh-CN-XiaoxiaoNeural","zh-CN-YunxiNeural","zh-CN-YunyangNeural","zh-CN-XiaoyiNeural","zh-CN-YunjianNeural","zh-CN-YunxiaNeural","zh-CN-liaoning-XiaobeiNeural","zh-CN-shaanxi-XiaoniNeural"];
 
 const MENU=[
-{category:"工作",items:[
-{id:"overview",icon:"📊",label:"概览"},
-{id:"xhs",icon:"🎈",label:"小红书"},
-{id:"aihot",icon:"🔥",label:"热点新闻"},
-{id:"plan",icon:"🗓️",label:"今日计划"},
-{id:"diet",icon:"🍴",label:"饮食打卡"}
+{category:"快捷",items:[
+{id:"overview",icon:"🏠",label:"首页总览"},
+{id:"plan",icon:"✅",label:"每日计划"},
+{id:"memo",icon:"📝",label:"备忘录"}
 ]},
-{category:"个人成长",items:[
-{id:"douyin",icon:"🌱",label:"抖音收藏"},
-{id:"learning",icon:"🪸",label:"学习成长"},
-{id:"daily",icon:"📈",label:"每日复盘"},
+{category:"自媒体创作",items:[
+{id:"idea",icon:"💡",label:"选题灵感"},
+{id:"aihot",icon:"📰",label:"热点新闻"},
+{id:"hotvideo",icon:"🔥",label:"爆款视频"},
+{id:"xhs",icon:"🎈",label:"小红书"},
+{id:"daily",icon:"📈",label:"内容复盘"},
+{id:"learning",icon:"🎬",label:"拍摄剪辑"},
+{id:"aicourse",icon:"🤖",label:"AI 教程"}
+]},
+{category:"自我提升",items:[
+{id:"english",icon:"🌐",label:"英语学习"},
+{id:"reading",icon:"📚",label:"读书记录"}
+]},
+{category:"健康生活",items:[
+{id:"fitness",icon:"💪",label:"健身打卡"},
+{id:"diet",icon:"🍴",label:"私厨菜谱"},
+{id:"ride",icon:"🏍️",label:"机车出行"}
+]},
+{category:"财务管理",items:[
+{id:"finance",icon:"💰",label:"每日记账"},
 {id:"weekly",icon:"📊",label:"每周复盘"},
+{id:"invest",icon:"🏦",label:"理财学习"}
+]},
+{category:"更多",items:[
+{id:"douyin",icon:"🌱",label:"抖音收藏"},
+{id:"apps",icon:"🔗",label:"快捷入口"},
 {id:"settings",icon:"⚙️",label:"设置"}
 ]}
+];
+
+// 底部 TabBar 配置
+const TAB_BAR=[
+{id:"overview",label:"首页",icon:"🏠",cls:"tab-home"},
+{id:"plan",label:"计划",icon:"✅",cls:"tab-plan"},
+{id:"idea",label:"灵感",icon:"💡",cls:"tab-idea"},
+{id:"fitness",label:"健身",icon:"💪",cls:"tab-fit"},
+{id:"showDrawer",label:"全部",icon:"☰",cls:"tab-all",action:"openDrawer"}
 ];
 
 //==================== STORE ====================
@@ -313,6 +598,7 @@ if(!this.data.dietRecords)this.data.dietRecords=[];
 if(!this.data.meals)this.data.meals={breakfast:"",lunch:"",dinner:""};
 if(!this.data.weightRecords)this.data.weightRecords=[];
 if(!this.data.checkins)this.data.checkins=[];
+if(!this.data.memos)this.data.memos=[];
 if(!this.data.douyinFavorites)this.data.douyinFavorites=[];
 if(!this.data.douyinCats)this.data.douyinCats=["AI技能","灵感来源💡"];
 if(!this.data.learningGoals)this.data.learningGoals=[];
@@ -320,6 +606,7 @@ if(!this.data.skills)this.data.skills=[];
 if(!this.data.learningRecords)this.data.learningRecords=[];
 if(!this.data.dailyReviews)this.data.dailyReviews=[];
 if(!this.data.weeklyReviews)this.data.weeklyReviews=[];
+if(!this.data.appShortcuts)this.data.appShortcuts=[{id:"a1",name:"抖音",icon:"🎵",url:"https://www.douyin.com"},{id:"a2",name:"小红书",icon:"📕",url:"https://www.xiaohongshu.com"},{id:"a3",name:"微信",icon:"💬",url:"https://weixin.qq.com"},{id:"a4",name:"哔哩哔哩",icon:"📺",url:"https://www.bilibili.com"}];
 if(!this.data.settings)this.data.settings={};
 const ds=this.defaultSettings();
 this.data.settings=Object.assign(ds,this.data.settings);
@@ -410,7 +697,7 @@ $("#modal-overlay").classList.add("show");
 }
 function closeModal(){$("#modal-overlay").classList.remove("show")}
 function confirmModal(title,msg,onConfirm){
-showModal(`<div class="modal-title">${title}</div><p style="font-size:13px;color:#666;margin-bottom:16px;text-align:center">${msg}</p><div style="display:flex;gap:10px"><button class="btn btn-gray btn-block" onclick="closeModal()">取消</button><button class="btn btn-danger btn-block" id="confirm-yes-btn">确认</button></div>`);
+showModal(`<div class="modal-title">${title}</div><p style="font-size:13px;color:var(--text-3);margin-bottom:16px;text-align:center">${msg}</p><div style="display:flex;gap:10px"><button class="btn btn-gray btn-block" onclick="closeModal()">取消</button><button class="btn btn-danger btn-block" id="confirm-yes-btn">确认</button></div>`);
 setTimeout(()=>{const b=$("#confirm-yes-btn");if(b)b.onclick=()=>{closeModal();onConfirm()}},0);
 }
 function notify(title,body){
@@ -522,76 +809,739 @@ let currentPanel="overview";
 
 const Panels={};
 
-// ---- 0. 概览 ----
+//==================== 备忘录（Jane 风格） ====================
+Panels.memo={
+render(){
+const memos=Store.get("memos")||[];
+return`
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">随手记下，怕忘的小事</div>
+<div class="card">
+<div style="display:flex;gap:8px;align-items:flex-start">
+<textarea id="memo-input" placeholder="碎片化想法，随时记下来..." style="flex:1;min-height:60px"></textarea>
+<button class="btn btn-sm" style="align-self:flex-start" onclick="Panels.memo.add()">记录</button>
+</div>
+<div style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center">灵感稍纵即逝，快记一条 ✨</div>
+</div>
+${memos.length?`<div class="card"><div class="card-title">📒 备忘列表 <button class="btn btn-sm btn-outline" style="margin-left:auto" onclick="Panels.memo.clearAll()">清空</button></div>
+${memos.slice().reverse().map(m=>`<div class="list-row"><div class="checkbox ${m.done?'checked':''}" onclick="Panels.memo.toggle('${m.id}')">${m.done?'✓':''}</div><div style="flex:1;${m.done?'opacity:.5;text-decoration:line-through':''}"><div style="font-size:13px">${m.text}</div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">${m.time}</div></div><button class="task-action-btn" onclick="Panels.memo.del('${m.id}')">×</button></div>`).join('')}
+</div>`:'<div class="empty">还没有备忘</div>'}
+`;
+},
+init(){
+},
+add(){
+const txt=($("#memo-input")||{}).value||"";
+if(!txt.trim()){toast("请输入内容");return}
+const memos=Store.get("memos")||[];
+memos.push({id:"m_"+Date.now(),text:txt.trim(),time:fmtDateTime(new Date()),done:false});
+Store.set("memos",memos);
+toast("✅ 已记录");
+rerender();
+},
+toggle(id){
+const memos=Store.get("memos")||[];
+const m=memos.find(x=>x.id===id);
+if(m){m.done=!m.done;Store.set("memos",memos);rerender();}
+},
+del(id){
+const memos=Store.get("memos")||[];
+Store.set("memos",memos.filter(x=>x.id!==id));
+rerender();toast("已删除");
+},
+clearAll(){
+confirmModal("清空备忘","确定清空所有备忘吗？",()=>{
+Store.set("memos",[]);rerender();toast("已清空");
+});
+}
+};
+
+//==================== 选题灵感（Jane 风） ====================
+const IDEA_TOPICS=[
+{category:"fitness",title:"工装→机车服 一秒变装",tip:"竖屏 15-25s，前 3 秒放钩子",trend:"hot"},
+{category:"fitness",title:"素颜居家→骑行全套 反差感拉满",tip:"竖屏 15-25s，前 3 秒放钩子",trend:"hot"},
+{category:"lifestyle",title:"同事眼里的我 vs 周末的我",tip:"竖屏 15-25s，前 3 秒放钩子",trend:"up"},
+{category:"lifestyle",title:"健身房汗湿→晚间约会 look 转场",tip:"竖屏 15-25s，前 3 秒放钩子",trend:"up"},
+{category:"food",title:"下班 15 分钟一人食，治愈百万打工人",tip:"治愈陪伴感",trend:"up"},
+{category:"fitness",title:"女生练臀 300 天对比，评论区破防了",tip:"励志共鸣 + 身材焦虑的正向出口",trend:"hot"},
+{category:"lifestyle",title:"手指镜头一挥，工装秒变机车服",tip:"动作卡点精准，BGM 重音处切换",trend:"up"}
+];
+Panels.idea={
+render(){
+const ideas=IDEA_TOPICS;
+return`
+<div style="font-size:13px;font-weight:800;color:var(--text-1);display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-left:4px">💡 选题每日灵感</div>
+<div class="section-subtitle">点滴想法，皆可成为爆款</div>
+<div class="card">
+<div class="card-title"><span class="emoji">⚡</span>随手灵感速记</div>
+<div style="display:flex;gap:8px">
+<textarea id="idea-quick-input" placeholder="碎片化想法，随时记下来..." style="flex:1;min-height:48px"></textarea>
+<button class="btn btn-sm" onclick="Panels.idea.quickNote()">记录</button>
+</div>
+<div style="font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center">灵感稍纵即逝，快记一条 ✨</div>
+</div>
+
+<div class="banner-pink" style="margin-bottom:12px">🌟 今日灵感主题：今天的你，最想拍什么？</div>
+
+<div class="card">
+<div class="card-title"><span class="emoji">🏆</span>爆款选题库</div>
+<div class="tag-filter-bar">
+<span class="cat-pill fitness" data-icat="fitness" onclick="Panels.idea.filterCat('fitness')">健身</span>
+<span class="cat-pill lifestyle" data-icat="lifestyle" onclick="Panels.idea.filterCat('lifestyle')">机车</span>
+<span class="cat-pill study" data-icat="study" onclick="Panels.idea.filterCat('study')">女性穿搭</span>
+<span class="cat-pill food" data-icat="food" onclick="Panels.idea.filterCat('food')">家常菜</span>
+<span class="cat-pill lifestyle active" data-icat="all" onclick="Panels.idea.filterCat('all')">变装反差转场</span>
+</div>
+<div id="idea-list">${ideas.map(i=>Panels.idea.card(i)).join('')}</div>
+</div>
+
+<div class="card">
+<div class="card-title"><span class="emoji">🤖</span>一键生成创意</div>
+<div style="font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:10px">基于「变装反差转场」赛道自动生成选题 + 文案 + 镜头思路</div>
+<button class="btn btn-block" onclick="Panels.idea.generate()">🎬 生成短视频创作素材</button>
+</div>
+
+<div class="card">
+<div class="card-title"><span class="emoji">📝</span>视频脚本填空模板</div>
+<div class="form-group"><label>【开头钩子 (0-3s)】</label><input placeholder="例：开头 1 秒直接甩「第 1 天」惨状照，反差钩子"></div>
+<div class="form-group"><label>【冲突/反差 (3-8s)】</label><input placeholder="例：①旧照 1s ②训练混剪 6s（臀推/硬拉/深蹲各 2s）"></div>
+<div class="form-group"><label>【主体内容 (8-25s)】</label><input placeholder="例：①镜前现状 3s ②文案字幕「你也可以」"></div>
+<div class="form-group"><label>【情绪引爆点】</label><input placeholder="例：评论区共鸣金句截图"></div>
+<div class="form-group"><label>【结尾引导 (关注/评论)】</label><input placeholder="例：留言区互动"></div>
+<div class="form-group"><label>【BGM】</label><input placeholder="卡点 BGM，建议 2 秒一切训练片段"></div>
+<div class="form-group"><label>【拍摄地点】</label><input placeholder="如：家庭健身房 / 街边"></div>
+<button class="btn btn-block" onclick="Panels.idea.saveScript()">💾 保存脚本</button>
+</div>
+`;
+},
+card(i){
+const trendCls=i.trend==="hot"?"hot":"up";
+const trendIcon=i.trend==="hot"?"🔥":"📈";
+const trendText=i.trend==="hot"?"爆热":"上升";
+const catMap={fitness:"fitness",tech:"tech",food:"food",lifestyle:"lifestyle",study:"study",work:"work"};
+const chips=[
+{cls:"dy",txt:"抖音",icon:"▶"},
+{cls:"xhs",txt:"小红书"},
+{cls:"bili",txt:"B站"},
+{cls:"ks",txt:"快手",icon:"⚡"}
+];
+return`<div class="idea-card" data-icat="${i.category}">
+<div style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">
+<div class="idea-card-title" style="flex:1">${i.title}</div>
+<span class="idea-card-trend ${trendCls}">${trendIcon} ${trendText}</span>
+</div>
+<div class="idea-card-meta"><span class="idea-tip">💡 建议：</span>${i.tip}</div>
+<div class="idea-card-chips">
+${chips.map(c=>`<span class="platform-chip ${c.cls}">${c.icon?`<span class="pc-icon">${c.icon}</span>`:''}${c.txt}</span>`).join('')}
+</div>
+</div>`;
+},
+filterCat(cat){
+$$(".cat-pill[data-icat]").forEach(el=>el.classList.toggle("active",el.dataset.icat===cat));
+const cards=$$(".idea-card");
+cards.forEach(card=>{
+if(cat==="all"){card.style.display=""}
+else{card.style.display=card.dataset.icat===cat?"":"none"}
+});
+},
+quickNote(){
+const v=($("#idea-quick-input")||{}).value||"";
+if(!v.trim()){toast("请输入想法");return}
+const memos=Store.get("memos")||[];
+memos.push({id:"m_"+Date.now(),text:v.trim(),time:fmtDateTime(new Date()),done:false});
+Store.set("memos",memos);
+$("#idea-quick-input").value="";
+toast("✅ 已记入备忘录");
+rerender();
+},
+generate(){
+const sample=`【变装反差 · 自动生成】
+
+🎬 标题候选：
+1. 工装→机车服，一秒变装惊艳全场
+2. 同事眼里的我 vs 周末的我
+
+📝 文案：
+白天为生活，晚上为自己。
+
+🎵 镜头节奏：
+0.3 秒无缝变装转场，动作卡点精准，BGM 重音处切换。
+
+📸 分镜脚本：
+①正装走向镜头 2s
+②挥手遮挡转场
+③健身服硬拉 2s
+④再切机车服踩发动 3s
+
+✨ 结尾引导：
+"你最想看到哪种反差？评论区告诉我 👇"
+
+🎵 推荐 BGM：变装卡点 / 重低音切换
+
+#变装 #反差 #工装 #机车 #一秒变装`;
+showModal(`<div class="modal-title">🎬 生成短视频创作素材</div>
+<textarea id="idea-gen-text" style="width:100%;min-height:260px;font-size:12px;line-height:1.6">${sample}</textarea>
+<div style="display:flex;gap:10px;margin-top:10px"><button class="btn btn-gray btn-block" onclick="closeModal()">关闭</button><button class="btn btn-block" onclick="navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('idea-gen-text').value);toast('已复制')">📋 复制</button></div>`);
+},
+saveScript(){
+toast("✅ 脚本已保存到本地");
+}
+};
+
+//==================== 爆款视频 ====================
+const HOT_VIDEOS=[
+{title:"#变装反差 话题播放量破百亿，转场玩法又出新花样",src:"抖音热点"},
+{title:"健身餐赛道持续火热，低卡家常菜成新宠",src:"抖音热点"},
+{title:"「她力量」频上热搜：更多女性开始主导自己的生活方式",src:"人民日报"},
+{title:"读书类短视频涨粉明显，女性成长书单再成爆款",src:"今日头条"},
+{title:"宏观政策发布：新一轮促消费措施出台，涉及文旅、汽车等领域",src:"央视新闻"},
+{title:"评论：普通人的坚持，就是时代最动人的注脚",src:"人民日报"}
+];
+Panels.hotvideo={
+render(){
+return`
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">刷爆全网，二创与内容复盘的素材</div>
+${HOT_VIDEOS.map(v=>`<div class="card" style="padding:14px">
+<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
+<span class="source-tag hot">${v.src}</span>
+<div style="flex:1;font-size:13px;font-weight:700;color:var(--text-1);line-height:1.5">${v.title}</div>
+</div>
+<div style="display:flex;gap:8px"><button class="btn btn-sm btn-soft">🔗 查看原文 / 原视频</button></div>
+</div>`).join('')}
+`;
+}
+};
+
+//==================== AI 教程（Jane 风章节） ====================
+const AI_COURSES=[
+{name:"看懂提示词 (Prompt) 基本写法",platforms:["bili","dy"]},
+{name:"文生视频 / 图生视频 / 文生图原理",platforms:["bili","dy"]},
+{name:"即梦 AI：文生视频实操",platforms:["bili","dy"]},
+{name:"可灵 AI：图生视频实操",platforms:["bili","dy"]},
+{name:"通义万相：一键生成短片",platforms:["bili","dy"]},
+{name:"AI 视频 + 真人素材混剪实战",platforms:["bili","dy"]},
+{name:"扩散模型是怎么\"画\"出视频的",platforms:["bili","dy"]},
+{name:"提示词进阶：镜头语言写进 Prompt",platforms:["bili","dy"]}
+];
+Panels.aicourse={
+render(){
+return`
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">持续学习，精进镜头语言</div>
+<div class="card">
+<div class="card-title"><span class="emoji">🎯</span>学习方向</div>
+<div style="font-size:12px;color:var(--text-2);line-height:1.6">变装创意 · 转场技巧 · 酷炫拍摄与剪辑 · 零基础分课时，每日一节</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="emoji">📚</span>分课时教程 <span style="font-size:11px;color:var(--text-muted);font-weight:500">点链接跳转学习，勾选即打卡</span></div>
+${AI_COURSES.map((c,i)=>`<div class="list-row">
+<div class="checkbox ${c.done?'checked':''}" onclick="Panels.aicourse.toggle(${i})">${c.done?'✓':''}</div>
+<div style="flex:1;font-size:13px;font-weight:600">第${i+1}课 ${c.name}</div>
+<div style="display:flex;gap:4px">${c.platforms.map(p=>`<span class="platform-chip ${p==='dy'?'dy':'bili'}">${p==='dy'?'▶ 抖音':'B站'}</span>`).join('')}</div>
+</div>`).join('')}
+</div>
+`;
+},
+init(){},
+toggle(i){
+const done=Store.get("aiCourseDone")||{};
+done[i]=!done[i];
+Store.set("aiCourseDone",done);
+rerender();
+}
+};
+
+//==================== 英语学习（Jane 短语表） ====================
+const EN_PHRASES={
+礼貌用语:[
+{en:"Please.",zh:"请。",ph:"/pliːz/"},
+{en:"Thank you.",zh:"谢谢你。",ph:"/θæŋk juː/"},
+{en:"You're welcome.",zh:"不客气。",ph:"/jɔːr ˈwɛlkəm/"},
+{en:"Excuse me.",zh:"打扰一下 / 借过。",ph:"/ɪkˈskjuːz miː/"},
+{en:"I'm sorry.",zh:"对不起。",ph:"/aɪm ˈsɒri/"}
+],
+"我不太会英语":[
+{en:"I don't speak English well.",zh:"我英语不太好。"},
+{en:"Could you speak slowly?",zh:"您能说慢一点吗？"},
+{en:"Pardon?",zh:"您说什么？（没听清）"},
+{en:"Do you speak Chinese?",zh:"您会说中文吗？"}
+],
+日常高频:[
+{en:"Where is the toilet?",zh:"洗手间在哪里？"},
+{en:"How much is it?",zh:"多少钱？"},
+{en:"What time is it?",zh:"现在几点了？"},
+{en:"Cheers!",zh:"干杯！/ 加油！"},
+{en:"Have a nice day!",zh:"祝您今天愉快！"}
+]
+};
+Panels.english={
+render(){
+return`
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">学一句是一句，碎片化输入</div>
+${Object.entries(EN_PHRASES).map(([sec,arr])=>`<div class="card">
+<div class="card-title"><span class="emoji">abc</span>${sec==='礼貌用语'?'必背口语短句':sec}</div>
+${sec==='礼貌用语'?'<div style="font-size:12px;color:var(--text-2);margin-bottom:8px">按主题背，和外国人交流最常用的一句</div>':''}
+${arr.map(p=>`<div class="list-row" style="align-items:baseline">
+<div style="flex:1"><span style="font-size:14px;font-weight:800;color:var(--text-1)">${p.en}</span><span style="font-size:12px;color:var(--text-muted);margin-left:8px">${p.zh}</span></div>
+${p.ph?`<span style="font-size:11px;color:var(--primary-dark);font-style:italic">${p.ph}</span>`:''}
+</div>`).join('')}
+</div>`).join('')}
+<div class="card">
+<div class="card-title"><span class="emoji">📝</span>我的跟读练习记录</div>
+<div style="display:flex;gap:8px">
+<input id="en-record" placeholder="如：今天练了点餐对话 3 遍">
+<button class="btn btn-sm" onclick="Panels.english.record()">记录</button>
+</div>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">
+${(Store.get("enRecords")||[]).slice().reverse().slice(0,5).map(r=>`<div style="font-size:12px;color:var(--text-2);padding:6px 10px;background:var(--surface-2);border-radius:10px"><b>${r.time}</b> · ${r.text}</div>`).join('')||'<div class="empty">暂无记录</div>'}
+</div>
+</div>
+`;
+},
+record(){
+const v=($("#en-record")||{}).value||"";
+if(!v.trim()){toast("请输入内容");return}
+const list=Store.get("enRecords")||[];
+list.push({time:fmtDateTime(new Date()),text:v.trim()});
+Store.set("enRecords",list);
+toast("✅ 已记录");rerender();
+}
+};
+
+//==================== 读书记录（Jane 书单） ====================
+const READING_BOOKS=[
+{title:"《爱的艺术》",desc:"爱是一种需要练习的能力",cat:"情感"},
+{title:"《非暴力沟通》",desc:"把话说进彼此心里",cat:"沟通"},
+{title:"《男人来自火星女人来自金星》",desc:"理解两性思维差异，少一点误会",cat:"情感"},
+{title:"《亲密陷阱》",desc:"亲密关系里的欲望与自由",cat:"情感"},
+{title:"《原子习惯》",desc:"微小改变，巨大复利",cat:"成长"},
+{title:"《被讨厌的勇气》",desc:"一切烦恼皆来自人际关系",cat:"心理"}
+];
+Panels.reading={
+render(){
+return`
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">本月书单，读完打勾</div>
+${READING_BOOKS.map(b=>`<div class="card">
+<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
+<div style="flex:1">
+<div style="font-size:15px;font-weight:800;color:var(--text-1);margin-bottom:4px">${b.title}</div>
+<div style="font-size:12px;color:var(--text-2);line-height:1.5">${b.desc}</div>
+</div>
+<span class="cat-pill study">${b.cat}</span>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<span class="platform-chip dy"><span class="pc-icon">▶</span>抖音</span>
+<span class="platform-chip wx-book"><span class="pc-icon">📖</span>微信读书</span>
+<span class="platform-chip xmly"><span class="pc-icon">🎧</span>喜马拉雅</span>
+<span class="platform-chip douban"><span class="pc-icon">📚</span>豆瓣</span>
+</div>
+</div>`).join('')}
+<button class="btn btn-block">📚 保存本月书单</button>
+`;
+}
+};
+
+//==================== 健身打卡（Jane 日历+训练） ====================
+Panels.fitness={
+render(){
+const now=new Date();
+const y=now.getFullYear(),m=now.getMonth(),today=now.getDate();
+const firstDay=new Date(y,m,1).getDay();
+const daysInMonth=new Date(y,m+1,0).getDate();
+const weekDays=["日","一","二","三","四","五","六"];
+let calHtml=`<div style="text-align:center;font-size:14px;font-weight:700;margin-bottom:8px">${y}年${m+1}月</div><div class="calendar">`;
+weekDays.forEach(w=>calHtml+=`<div class="cal-header">${w}</div>`);
+for(let i=0;i<firstDay;i++)calHtml+=`<div class="cal-day other"></div>`;
+for(let i=1;i<=daysInMonth;i++){
+calHtml+=`<div class="cal-day${i===today?" today":""}">${i}</div>`;
+}
+calHtml+="</div>";
+
+const parts=[
+{name:"臀",icon:"🍑"},
+{name:"背",icon:"💪"},
+{name:"肩",icon:"🏋️"},
+{name:"胸",icon:"🤲"},
+{name:"有氧",icon:"🏃"},
+{name:"拉伸",icon:"🧘"}
+];
+const active="拉伸";
+
+return`
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">每日打卡，臀腿优先 · 背肩胸为重点</div>
+<div class="card">
+<div class="card-title"><span class="emoji">🗓️</span>打卡日历</div>
+${calHtml}
+<div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.6">📍 点日期即打卡 / 取消，臀腿优先 · 背肩胸为重点</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="emoji">💪</span>今日训练计划</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+${parts.map(p=>`<span class="cat-pill ${p.name===active?'':''} ${p.name===active?'active':p.name==='臀'?'fitness':'study'}" style="${p.name===active?'background:var(--grad-primary);color:#fff;box-shadow:0 2px 6px rgba(99,102,241,.30)':''}">${p.name}</span>`).join('')}
+</div>
+<div style="padding:12px;background:var(--violet-50);border-radius:14px;font-size:13px;line-height:1.8;color:var(--text-1)">
+臀部鸽子式 ｜ 腘绳肌前屈 ｜ 肩背猫式 ｜ 每个动作 40s × 2 组
+</div>
+<div style="font-size:11px;color:var(--text-muted);margin-top:8px">🎬 一键跟练（打开外部 App）</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+<span class="platform-chip dy-follow">▶ 抖音跟练</span>
+<span class="platform-chip xhs">小红书</span>
+<span class="platform-chip bili">B站</span>
+<span class="platform-chip ks">⚡ 快手</span>
+</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="emoji">📏</span>身体数据记录</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+<input placeholder="体重 kg">
+<input placeholder="围度 如臀 95">
+</div>
+<input placeholder="运动时长（分钟）" style="margin-bottom:10px">
+<button class="btn btn-block">💾 保存记录</button>
+</div>
+`;
+}
+};
+
+//==================== 私厨菜谱（Jane 渐变 hero） ====================
+const RECIPES=[
+{title:"低脂鸡胸时蔬碗",cat:"健身餐",steps:["鸡胸肉盐+黑胡椒+料酒腌 15 分钟","不粘锅少油煎至两面金黄","西兰花焯水 1 分钟","糙米饭打底，摆盘淋油醋汁"],buy:"鸡胸肉 300g · 西兰花 1 颗 · 糙米 · 小番茄 · 油醋汁"},
+{title:"番茄牛腩",cat:"硬菜",steps:["牛腩冷水下锅焯水","番茄炒出沙","加牛腩、热水、少许糖，炖 1 小时","大火收汁撒葱花"],buy:"牛腩 500g · 番茄 3 个 · 葱姜 · 冰糖"},
+{title:"蒜蓉粉丝虾",cat:"宴客菜",steps:["虾开背去虾线","粉丝泡软垫底","蒜蓉+蒸鱼豉油铺满","水开蒸 6 分钟，泼热油"],buy:"鲜虾 400g · 龙门粉丝 2 把 · 大蒜 1 头 · 蒸鱼豉油"}
+];
+Panels.recipe={
+render(){
+const today=RECIPES[0];
+return`
+<div style="font-size:13px;font-weight:800;color:var(--text-1);display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-left:4px">🍴 私厨菜谱</div>
+<div class="section-subtitle">头盔藏住情绪，厨房释放烟火</div>
+
+<div class="hero-gradient">
+<div class="hg-title">🥗 今日推荐菜 · ${today.title} 🥦</div>
+<div class="hg-list">
+${today.steps.map((s,i)=>`<div class="hg-list-item">${['①','②','③','④'][i]} ${s}</div>`).join('')}
+</div>
+<div class="hg-platforms">
+<span class="platform-chip dy-follow">▶ 抖音跟做</span>
+<span class="platform-chip xhs">小红书</span>
+<span class="platform-chip bili">B站</span>
+<span class="platform-chip ks">⚡ 快手</span>
+</div>
+</div>
+
+${RECIPES.map(r=>`<div class="card">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+<div style="font-size:15px;font-weight:800;color:var(--text-1);flex:1">${r.title}</div>
+<span class="cat-pill ${r.cat==='健身餐'?'fitness':r.cat==='硬菜'?'food':'lifestyle'}">${r.cat}</span>
+</div>
+<div style="font-size:13px;font-weight:700;color:var(--text-1);margin-bottom:4px">做法：</div>
+<div class="steps">${r.steps.map((s,i)=>`<div class="step"><span class="step-no">${i+1}</span><span>${s}</span></div>`).join('')}</div>
+<div style="margin-top:10px;padding:10px;background:var(--violet-50);border-radius:12px;font-size:12px;line-height:1.6;color:var(--text-1)">🛒 采购清单：${r.buy}</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+<span class="platform-chip dy-follow">▶ 抖音跟做</span>
+<span class="platform-chip xhs">小红书</span>
+<span class="platform-chip bili">B站</span>
+<span class="platform-chip ks">⚡ 快手</span>
+</div>
+</div>`).join('')}
+`;
+}
+};
+
+//==================== 机车出行 ====================
+Panels.ride={
+render(){
+return`
+<div style="font-size:13px;font-weight:800;color:var(--text-1);display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-left:4px">🏍️ 机车出行</div>
+<div class="section-subtitle">记录骑行、装备、油耗</div>
+<div class="card">
+<div class="card-title"><span class="emoji">📍</span>本周骑行</div>
+<div style="text-align:center;padding:20px;color:var(--text-muted)">
+<div style="font-size:36px;font-weight:800;background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">128<span style="font-size:14px;font-weight:700">km</span></div>
+<div style="font-size:11px;margin-top:4px">本周累计</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="emoji">⛽</span>油耗 / 维护</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<input placeholder="加油金额 ¥">
+<input placeholder="里程 km">
+</div>
+<button class="btn btn-block" style="margin-top:10px">💾 记录本次</button>
+</div>
+`;
+}
+};
+
+//==================== 每日记账 ====================
+Panels.finance={
+render(){
+return`
+<div style="font-size:13px;font-weight:800;color:var(--text-1);display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-left:4px">💰 每日记账</div>
+<div class="section-subtitle">开源节流，从一笔笔开始</div>
+<div class="card">
+<div style="display:flex;gap:10px;align-items:center">
+<div style="flex:1">
+<div style="font-size:11px;color:var(--text-muted);font-weight:600">本月支出</div>
+<div style="font-size:24px;font-weight:800;background:var(--grad-primary);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:2px">¥ 3,280</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:11px;color:var(--text-muted);font-weight:600">本月收入</div>
+<div style="font-size:18px;font-weight:800;color:var(--mint);margin-top:2px">¥ 12,500</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-title"><span class="emoji">➕</span>新增一笔</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+<input placeholder="金额 ¥">
+<select><option>餐饮</option><option>交通</option><option>购物</option><option>学习</option><option>其他</option></select>
+</div>
+<input placeholder="备注..." style="margin-bottom:8px">
+<button class="btn btn-block">💾 记账</button>
+</div>
+`;
+}
+};
+
+//==================== 理财学习 ====================
+Panels.invest={
+render(){
+return`
+<div style="font-size:13px;font-weight:800;color:var(--text-1);display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-left:4px">🏦 理财 / 基金 / 金融学习</div>
+<div class="section-subtitle">让钱为你打工</div>
+<div class="banner-violet">📈 本月收益：+ ¥1,256（+2.3%）</div>
+<div class="card" style="margin-top:12px">
+<div class="card-title"><span class="emoji">📚</span>推荐学习</div>
+<div class="list-row"><div class="checkbox"></div><div style="flex:1;font-size:13px;font-weight:600">《小狗钱钱》— 理财启蒙经典</div><span class="priority-tag low">入门</span></div>
+<div class="list-row"><div class="checkbox"></div><div style="flex:1;font-size:13px;font-weight:600">《富爸爸穷爸爸》— 财商思维</div><span class="priority-tag med">进阶</span></div>
+<div class="list-row"><div class="checkbox"></div><div style="flex:1;font-size:13px;font-weight:600">《聪明的投资者》— 价值投资</div><span class="priority-tag high">深入</span></div>
+</div>
+`;
+}
+};
+
+// ---- 0. 总览 ----
 Panels.overview={
 render(){
 const now=new Date();
 const weekDays=["日","一","二","三","四","五","六"];
-const dateStr=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 周${weekDays[now.getDay()]}`;
+const dateStr=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 周${weekDays[now.getDay()]}`,today=todayKey();
 
 const tasks=Store.get("todayTasks");
-const todoCount=tasks.filter(t=>!t.done).length;
-const notes=Store.get("xhsNotes");
-const drafts=notes.filter(n=>n.status==="草稿").length;
-const douyinFavs=Store.get("douyinFavorites").length;
+const todoDone=tasks.filter(t=>t.done).length,todoTotal=tasks.length;
+const todoRate=todoTotal?Math.round(todoDone/todoTotal*100):0;
 
-const weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay());weekStart.setHours(0,0,0,0);
-const learningRecords=Store.get("learningRecords").filter(r=>new Date(r.date)>=weekStart);
-const learnMinutes=learningRecords.reduce((s,r)=>s+r.duration,0);
-const checkins=Store.get("checkins").filter(c=>new Date(c.time)>=weekStart).length;
+const checkins=Store.get("checkins").filter(c=>c.time&&c.time.slice(0,10)===today);
+const habitDone=checkins.length;
+
+const weights=Store.get("weightRecords");
+const latestWeight=weights.length?weights[0].weight:null;
+
+const reviews=Store.get("dailyReviews");
+const todayReview=reviews.find(r=>r.date===today);
+
+const xhsNotes=Store.get("xhsNotes");
+const xhsDrafts=xhsNotes.filter(n=>n.status==="草稿").length;
+const xhsPublished=xhsNotes.filter(n=>n.status==="已发布").length;
 
 const ai=getAIHotData();
+const hotCount=ai&&ai.news?ai.news.length:0;
+
+const douyinFavs=Store.get("douyinFavorites").length;
+
+const goals=Store.get("learningGoals");
+const learnProgress=goals.length?Math.round(goals.reduce((s,g)=>s+g.progress,0)/goals.length):0;
+const todayLearn=Store.get("learningRecords").filter(r=>r.date&&r.date.slice(0,10)===today).reduce((s,r)=>s+r.duration,0);
+
+const weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay());weekStart.setHours(0,0,0,0);
+const weeklyReviews=Store.get("weeklyReviews");
+const thisWeekReview=weeklyReviews.find(r=>{
+if(!r.date)return false;
+const d=new Date(r.date);
+return d>=weekStart;
+});
 
 return`
-<div class="card" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff">
-<div style="font-size:13px;opacity:.9">📊 今日概览</div>
-<div style="font-size:20px;font-weight:800;margin-top:6px">${dateStr}</div>
-<div style="font-size:12px;opacity:.85;margin-top:4px">🕸️ Liewkay's Workbench</div>
+<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;padding-left:4px;font-weight:600">稳步前行，完成即是收获</div>
+<div class="hero-gradient">
+<div style="display:flex;align-items:center;gap:14px;position:relative">
+<div class="progress-ring">
+<svg viewBox="0 0 84 84"><circle class="ring-bg" cx="42" cy="42" r="36"/><circle class="ring-fg" cx="42" cy="42" r="36" stroke-dasharray="${2*Math.PI*36}" stroke-dashoffset="${2*Math.PI*36*(1-todoRate/100)}"/></svg>
+<div class="ring-text">${todoRate}<span style="font-size:11px;font-weight:600;opacity:.85">%</span></div>
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('plan')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${todoCount}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">📋 待办行程</div>
-</div>
-<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('xhs')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${drafts}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">📝 小红书草稿</div>
-</div>
-<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('douyin')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${douyinFavs}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">🌱 抖音收藏</div>
-</div>
-<div class="card" style="text-align:center;padding:14px 8px" onclick="switchPanel('learning')">
-<div style="font-size:24px;font-weight:800;color:var(--accent)">${learnMinutes}</div>
-<div style="font-size:12px;color:var(--gray);margin-top:4px">🪸 本周学习(分)</div>
+<div style="flex:1;min-width:0">
+<div class="hg-title">任务 ${todoDone}/${todoTotal}</div>
+<div class="hg-sub">勾选任务，进度实时更新</div>
+<div style="margin-top:10px"><button class="btn btn-sm" style="background:rgba(255,255,255,.95);color:var(--primary-dark);box-shadow:0 2px 8px rgba(0,0,0,.12)">☁️ 同步到手机云端</button></div>
 </div>
 </div>
+</div>
+
 <div class="card">
-<div class="card-title">🔥 今日热点速递 <button class="btn btn-sm btn-outline" style="margin-left:auto" onclick="switchPanel('aihot')">查看全部</button></div>
-${ai.news.slice(0,3).map(n=>`<div style="padding:8px 0;border-bottom:1px solid var(--bg-light);font-size:13px"><span class="heat">${"🔥".repeat(Math.min(n.heat,3))}</span> ${n.title}</div>`).join("")}
+<div class="card-title"><span class="emoji">➕</span>新增任务</div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<input id="ov-quick-task" placeholder="写下要做的事..." style="flex:1;min-width:0">
+<select id="ov-quick-priority" style="width:auto;font-size:12px"><option value="中优">🟣 中优</option><option value="低优">🔵 低优</option><option value="高优">🩷 高优</option></select>
+<button class="btn btn-sm" onclick="Panels.overview.quickAdd()">添加任务</button>
 </div>
+</div>
+
 <div class="card">
-<div class="card-title">📋 今日行程 <button class="btn btn-sm btn-outline" style="margin-left:auto" onclick="switchPanel('plan')">管理</button></div>
-${tasks.slice(0,4).map(t=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bg-light);${t.done?'opacity:.5;text-decoration:line-through;color:var(--gray)':''}">
-<span style="font-size:12px;font-weight:700;color:var(--primary);min-width:38px">${t.time}</span>
-<span style="font-size:13px;flex:1">${t.isHot?"🔥 热点库":"📍 "+t.place}</span>
-${t.done?"✅":""}
-</div>`).join("")}
-${tasks.length>4?`<div style="text-align:center;margin-top:8px;font-size:12px;color:var(--gray)">还有 ${tasks.length-4} 项</div>`:""}
+<div class="card-title"><span class="emoji">📋</span>待办任务清单 <button class="btn btn-sm btn-outline" style="margin-left:auto" onclick="switchPanel('plan')">管理</button></div>
+${tasks.length===0?'<div class="empty">暂无任务，添加第一条吧</div>':tasks.slice(0,8).map(t=>{
+const pri=({低优:'low',中优:'med',高优:'high'})[t.priority]||'med';
+return`<div class="list-row" data-task-id="${t.id}">
+<div class="checkbox ${t.done?'checked':''}" onclick="Panels.plan&&Panels.plan.toggleDone('${t.id}')">${t.done?'✓':''}</div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;${t.done?'opacity:.5;text-decoration:line-through;color:var(--gray)':''}">
+<span style="font-size:11px;font-weight:800;color:var(--primary-dark);min-width:36px">${t.time||'—'}</span>
+<span style="font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.isHot?"🔥 "+t.place:t.place}</span>
+<span class="priority-tag ${pri}">${t.priority||'中优'}</span>
 </div>
-<div class="card" style="background:var(--bg-light)">
-<div class="card-title">💪 本周打卡</div>
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-<span class="tag tag-green">学习 ${learningRecords.length} 次</span>
-<span class="tag tag-orange">打卡 ${checkins} 次</span>
-</div>
+<button class="task-action-btn" onclick="Panels.plan&&Panels.plan.editTask('${t.id}')">改</button>
+<button class="task-action-btn" onclick="Panels.plan&&Panels.plan.deleteTask('${t.id}')">×</button>
 </div>`;
+}).join('')}
+</div>
+
+<div class="section-title">📊 数据看板</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('plan')">
+<div class="stat-num">${todoRate}%</div>
+<div class="stat-label">📋 待办完成率</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">${todoDone}/${todoTotal}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('fitness')">
+<div class="stat-num">${habitDone}</div>
+<div class="stat-label">💪 今日习惯打卡</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">最新体重 ${latestWeight?latestWeight+'kg':'未记录'}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('daily')">
+<div class="stat-num">${todayReview?'✅':'—'}</div>
+<div class="stat-label">📈 今日复盘</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">${todayReview?'已完成':'未复盘'}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('weekly')">
+<div class="stat-num">${thisWeekReview?'✅':'—'}</div>
+<div class="stat-label">📊 本周复盘</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">${thisWeekReview?'已完成':'未复盘'}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('xhs')">
+<div class="stat-num">${xhsDrafts}</div>
+<div class="stat-label">🎈 小红书草稿</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">已发布 ${xhsPublished}</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('aihot')">
+<div class="stat-num">${hotCount}</div>
+<div class="stat-label">🔥 热点新闻</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">今日更新</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('douyin')">
+<div class="stat-num">${douyinFavs}</div>
+<div class="stat-label">🌱 抖音收藏</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">条收藏</div>
+</div>
+<div class="card" style="text-align:center;padding:14px 8px;margin-bottom:0;cursor:pointer" onclick="switchPanel('learning')">
+<div class="stat-num">${learnProgress}%</div>
+<div class="stat-label">🎯 学习目标</div>
+<div style="font-size:10px;color:var(--text-muted);margin-top:3px">今日 ${todayLearn} 分钟</div>
+</div>
+</div>
+
+<div class="section-title">🔥 今日热点速递</div>
+<div class="card">
+${ai&&ai.news?ai.news.slice(0,4).map(n=>`<div class="news-item"><div class="news-title"><span class="heat">${"🔥".repeat(Math.min(n.heat||1,3))}</span> ${n.title}</div><div class="news-meta"><span>${n.source||'热点'}</span><span>${n.tag||''}</span></div></div>`).join(""):'<div class="empty">暂无热点数据</div>'}
+<button class="btn btn-soft btn-block" style="margin-top:10px" onclick="switchPanel('aihot')">查看全部热点 →</button>
+</div>
+
+<div class="section-title">🔗 快捷入口</div>
+<div class="card">
+<div class="app-grid">${renderAppTiles()}</div>
+</div>
+`;
 },
 init(){
 $("#global-fab").classList.add("hidden");
+const ta=$("#ov-quick-task");
+if(ta)ta.addEventListener("keydown",e=>{if(e.key==="Enter")Panels.overview.quickAdd()});
+},
+quickAdd(){
+const txt=($("#ov-quick-task")||{}).value||"";
+const pri=($("#ov-quick-priority")||{}).value||"中优";
+if(!txt.trim()){toast("请输入任务内容");return}
+if(!Panels.plan||!Panels.plan.addTask){toast("计划模块未就绪");return}
+const tasks=Store.get("todayTasks")||[];
+const newTask={id:"ov_"+Date.now(),time:fmtTime(new Date()),place:txt.trim(),priority:pri,done:false,reminded:false};
+tasks.push(newTask);
+Store.set("todayTasks",tasks);
+toast("✅ 任务已添加");
+rerender();
 }
 };
-
+// ---- App 快捷入口 ----
+function greeting(){
+const h=new Date().getHours();
+if(h<6)return "夜深了，注意休息";
+if(h<11)return "早上好，开启高效一天";
+if(h<14)return "中午好，记得充个电";
+if(h<18)return "下午好，保持节奏";
+if(h<22)return "晚上好，复盘时刻";
+return "夜深了，注意休息";
+}
+function renderAppTiles(){
+const apps=Store.get("appShortcuts")||[];
+const tiles=apps.map(a=>`<a class="app-tile" href="javascript:void(0)" onclick="openApp('${encodeURIComponent(a.url)}')">
+<div class="app-icon">${a.icon||"🔗"}</div>
+<div class="app-name">${a.name}</div>
+<button class="app-del" onclick="event.stopPropagation();deleteApp('${a.id}')">✕</button>
+</a>`).join("");
+const add=`<a class="app-tile app-add" href="javascript:void(0)" onclick="switchPanel('apps')">
+<div class="app-icon">＋</div>
+<div class="app-name">添加</div>
+</a>`;
+return tiles+add;
+}
+function openApp(url){
+url=decodeURIComponent(url);
+if(url)window.open(url,"_blank");
+}
+function deleteApp(id){
+const apps=Store.get("appShortcuts")||[];
+Store.set("appShortcuts",apps.filter(a=>a.id!==id));
+toast("已删除快捷方式");
+if(currentPanel==="overview"||currentPanel==="apps")rerender();
+}
+function addApp(){
+const name=prompt("应用名称（如：抖音）：");
+if(!name)return;
+const icon=prompt("图标 emoji（如：🎵，可留空）：")||"🔗";
+const url=prompt("跳转链接（如：https://www.douyin.com）：");
+if(!url)return;
+const apps=Store.get("appShortcuts")||[];
+apps.push({id:"app_"+Date.now(),name,icon,url});
+Store.set("appShortcuts",apps);
+toast("已添加快捷方式");
+rerender();
+}
+Panels.apps={
+render(){
+const apps=Store.get("appShortcuts")||[];
+return`
+<div class="hero" style="margin-bottom:var(--sp-3)">
+<div class="hero-date">🔗 快捷入口</div>
+<div class="hero-title" style="font-size:var(--fs-xl)">把工作台变成指挥台</div>
+<div class="hero-sub">添加常用 App，一键跳转</div>
+</div>
+<div class="card">
+<div class="card-title">📌 我的快捷方式</div>
+${apps.length?`<div class="app-grid">${apps.map(a=>`<div class="app-tile"><div class="app-icon">${a.icon||"🔗"}</div><div class="app-name">${a.name}</div><button class="app-del" style="opacity:1" onclick="deleteApp('${a.id}')">✕</button></div>`).join("")}</div>`:'<div class="empty">还没有快捷方式，点击下方添加</div>'}
+<button class="btn btn-block" style="margin-top:var(--sp-3)" onclick="addApp()">＋ 添加快捷方式</button>
+</div>
+<div class="card">
+<div class="card-title">💡 小贴士</div>
+<div style="font-size:13px;color:var(--text-2);line-height:1.6">总览页已内置快捷入口，点击图标在新标签打开对应 App；在总览或本页长按/悬停图标的 ✕ 可删除。</div>
+</div>`;
+},
+init(){const f=$("#global-fab");if(f)f.classList.add("hidden");}
+};
 // ---- 1. 今日计划 ----
 Panels.plan={
 render(){
@@ -614,92 +1564,91 @@ const tasks=Store.get("todayTasks");
 let tasksHtml="";
 tasks.forEach((t,i)=>{
 const isHot=t.isHotspot;
-let extraHtml="";
-if(isHot){
-const ai=getAIHotData();
-extraHtml=`<div style="margin-top:8px;padding:8px;background:#fff;border-radius:8px;font-size:11px;line-height:1.6">
-<div style="font-weight:600;color:var(--orange);margin-bottom:4px">📡 热点联动 · 今日热点速递</div>
-${ai.news.slice(0,3).map(n=>`<div style="padding:3px 0;border-bottom:1px dashed #eee"><span class="heat">${"🔥".repeat(Math.min(n.heat,3))}</span> ${n.title}</div>`).join("")}
-<div style="font-weight:600;color:var(--primary-dark);margin:6px 0 3px">💡 选题建议</div>
-${ai.suggestions.slice(0,2).map(s=>`<div style="padding:2px 0">📌 ${s.text}</div>`).join("")}
-<div style="text-align:right;margin-top:4px"><button class="btn btn-sm btn-outline" onclick="switchPanel('aihot')">查看全部 →</button></div>
-</div>`;
-}
-tasksHtml+=`<div class="task-item${t.done?" done":""}${isHot?" hotspot-item":""}" data-idx="${i}">
-<span class="task-time">${t.time}⌛️</span>
-<div style="flex:1;cursor:pointer" class="task-body">
-<div class="task-text">${isHot?"🔥 "+t.place:"📍 "+t.place}</div>
-${extraHtml}
+const pri=({低优:'low',中优:'med',高优:'high'})[t.priority]||'med';
+tasksHtml+=`<div class="list-row" data-task-id="${t.id||i}">
+<div class="checkbox ${t.done?'checked':''}" onclick="Panels.plan.toggleDone('${t.id||i}')">${t.done?'✓':''}</div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;${t.done?'opacity:.5;text-decoration:line-through;color:var(--gray)':''}">
+<span style="font-size:11px;font-weight:800;color:var(--primary-dark);min-width:36px">${t.time||'—'}</span>
+<span style="font-size:13px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${isHot?"🔥 "+t.place:"📍 "+t.place}</span>
+<span class="priority-tag ${pri}">${t.priority||'中优'}</span>
 </div>
-<div style="display:flex;gap:4px;flex-shrink:0">
-<button class="task-action-btn" onclick="event.stopPropagation();Panels.plan.editTask(${i})" title="编辑">✏️</button>
-<button class="task-action-btn" onclick="event.stopPropagation();Panels.plan.deleteTask(${i})" title="删除">🗑</button>
-</div>
-${t.done?"✅":""}
+<button class="task-action-btn" onclick="Panels.plan.editTask('${t.id||i}')">改</button>
+<button class="task-action-btn" onclick="Panels.plan.deleteTask('${t.id||i}')">×</button>
 </div>`;
 });
 
 return`<div class="card">
 <div class="card-title">🗓️ ${monthNames[m]}日历</div>
 ${calHtml}
+<div style="font-size:11px;color:var(--text-muted);margin-top:8px;line-height:1.6">📍 点日期即打卡 / 取消，臀腿优先·背肩胸为重点</div>
 </div>
 <div class="card">
-<div class="card-title">📋 今日行程 <span style="margin-left:auto"><button class="btn btn-sm btn-outline" onclick="Panels.plan.addTask()">➕ 添加</button></span></div>
-${tasksHtml}
+<div class="card-title">📋 今日行程 <span style="margin-left:auto"><button class="btn btn-sm" onclick="Panels.plan.openAdd()">➕ 添加</button></span></div>
+${tasks.length?tasksHtml:'<div class="empty">暂无行程</div>'}
 </div>`;
 },
 init(){
-$$(".task-item").forEach(el=>{
-const body=el.querySelector(".task-body");
-if(body){
-body.addEventListener("click",()=>{
-const idx=parseInt(el.dataset.idx);
-const tasks=Store.get("todayTasks");
-tasks[idx].done=!tasks[idx].done;
-Store.set("todayTasks",tasks);
-el.classList.toggle("done");
-});
-}
-});
 },
-addTask(){
+openAdd(){
+this.addTask();
+},
+addTask(opts){
+opts=opts||{};
+const defTime=opts.time||fmtTime(new Date());
+const defPlace=opts.place||"";
+const defPri=opts.priority||"中优";
 showModal(`<div class="modal-title">➕ 添加行程</div>
-<div class="form-group"><label>时间</label><input id="task-time" type="time" placeholder="如：08:00"></div>
-<div class="form-group"><label>地点 / 事项</label><input id="task-place" placeholder="如：工作室·内容创作"></div>
+<div class="form-group"><label>⏰ 时间</label><input id="task-time" type="time" value="${defTime}"></div>
+<div class="form-group"><label>📍 地点 / 事项</label><input id="task-place" placeholder="如：工作室·内容创作" value="${defPlace}"></div>
+<div class="form-group"><label>🎯 优先级</label><select id="task-priority"><option value="低优" ${defPri==='低优'?'selected':''}>🔵 低优</option><option value="中优" ${defPri==='中优'?'selected':''}>🟣 中优</option><option value="高优" ${defPri==='高优'?'selected':''}>🩷 高优</option></select></div>
 <div style="display:flex;gap:10px"><button class="btn btn-gray btn-block" onclick="closeModal()">取消</button><button class="btn btn-block" id="task-save">添加</button></div>`);
 $("#task-save").onclick=()=>{
 const time=$("#task-time").value;
 const place=$("#task-place").value.trim();
+const priority=$("#task-priority").value;
 if(!time||!place){toast("请填写完整");return}
 const tasks=Store.get("todayTasks");
-tasks.push({time,place,done:false});
-tasks.sort((a,b)=>a.time.localeCompare(b.time));
+tasks.push({id:"t_"+Date.now(),time,place,priority,done:false,reminded:false});
+tasks.sort((a,b)=>(a.time||"").localeCompare(b.time||""));
 Store.set("todayTasks",tasks);
 closeModal();rerender();toast("✅ 行程已添加");
 };
 },
-editTask(i){
+toggleDone(id){
 const tasks=Store.get("todayTasks");
-const t=tasks[i];
+const t=tasks.find(x=>(x.id||"")===id||String(tasks.indexOf(x))===String(id));
+if(!t)return;
+t.done=!t.done;
+Store.set("todayTasks",tasks);
+rerender();
+},
+editTask(id){
+const tasks=Store.get("todayTasks");
+const t=tasks.find(x=>(x.id||"")===id||String(tasks.indexOf(x))===String(id));
+if(!t)return;
 showModal(`<div class="modal-title">✏️ 编辑行程</div>
-<div class="form-group"><label>时间</label><input id="task-time" type="time" value="${t.time}"></div>
-<div class="form-group"><label>地点 / 事项</label><input id="task-place" value="${t.place}"></div>
+<div class="form-group"><label>⏰ 时间</label><input id="task-time" type="time" value="${t.time}"></div>
+<div class="form-group"><label>📍 地点 / 事项</label><input id="task-place" value="${t.place}"></div>
+<div class="form-group"><label>🎯 优先级</label><select id="task-priority"><option value="低优" ${t.priority==='低优'?'selected':''}>🔵 低优</option><option value="中优" ${t.priority==='中优'?'selected':''}>🟣 中优</option><option value="高优" ${t.priority==='高优'?'selected':''}>🩷 高优</option></select></div>
 <div style="display:flex;gap:10px"><button class="btn btn-gray btn-block" onclick="closeModal()">取消</button><button class="btn btn-block" id="task-save">保存</button></div>`);
 $("#task-save").onclick=()=>{
 const time=$("#task-time").value;
 const place=$("#task-place").value.trim();
+const priority=$("#task-priority").value;
 if(!time||!place){toast("请填写完整");return}
-tasks[i]={...t,time,place};
-tasks.sort((a,b)=>a.time.localeCompare(b.time));
+t.time=time;t.place=place;t.priority=priority;
+tasks.sort((a,b)=>(a.time||"").localeCompare(b.time||""));
 Store.set("todayTasks",tasks);
 closeModal();rerender();toast("✅ 已保存");
 };
 },
-deleteTask(i){
+deleteTask(id){
 const tasks=Store.get("todayTasks");
-const t=tasks[i];
+const idx=typeof id==="number"?id:tasks.findIndex(x=>(x.id||"")===id);
+if(idx<0)return;
+const t=tasks[idx];
 confirmModal("删除行程",`确定删除「${t.time} ${t.place}」？`,()=>{
-tasks.splice(i,1);
+tasks.splice(idx,1);
 Store.set("todayTasks",tasks);
 rerender();toast("已删除");
 });
@@ -721,9 +1670,9 @@ const learned=favs.filter(f=>f.learned).length;
 const unlearned=favs.length-learned;
 return`
 <div class="card" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
-<span class="stat-capsule" style="background:#fff3e0;color:var(--orange)">待发布 ${pending.length}</span>
+<span class="stat-capsule" style="background:var(--orange-50);color:var(--orange)">待发布 ${pending.length}</span>
 <span class="stat-capsule" style="background:var(--highlight);color:var(--primary-dark)">已发布 ${published.length}</span>
-<span class="stat-capsule" style="background:var(--light-gray);color:#666">草稿 ${drafts.length}</span>
+<span class="stat-capsule" style="background:var(--light-gray);color:var(--text-3)">草稿 ${drafts.length}</span>
 </div>
 <div class="card">
 <div class="card-title">💡 快速记录灵感</div>
@@ -1629,7 +2578,7 @@ ${s.subtasks.map((st,i)=>`<div class="subtask"><input type="checkbox" ${st.done?
 <div class="card-title">📊 学习成果 <span style="font-size:12px;color:var(--gray);font-weight:400">本周累计 ${hours}h${mins}m</span></div>
 ${records.length?records.map(r=>`<div style="padding:8px 0;border-bottom:1px solid var(--bg-light)">
 <div style="display:flex;justify-content:space-between"><span style="font-size:12px;font-weight:600">${r.dateStr}</span><span class="tag tag-green">${r.duration}分钟</span></div>
-<div style="font-size:12px;color:#555;margin-top:3px">${r.content}</div>
+<div style="font-size:12px;color:var(--text-2);margin-top:3px">${r.content}</div>
 </div>`).join(""):"<div class='empty'>暂无记录</div>"}
 </div>`;
 },
@@ -1997,12 +2946,26 @@ Store.clear();rerender();toast("✅ 所有数据已清除");
 }
 };
 
+//==================== SIDEBAR TOGGLE ====================
+function isMobile(){return window.innerWidth<=768}
+function toggleSidebar(){
+$("#app").classList.toggle("sidebar-open");
+}
+function closeSidebarDrawer(){
+const app=$("#app");
+app.classList.remove("sidebar-open");
+$(".sidebar-toggle").textContent="☰";
+}
+
 //==================== NAVIGATION ====================
 function switchPanel(name){
 if(currentPanel&&Panels[currentPanel]&&Panels[currentPanel].onLeave)Panels[currentPanel].onLeave();
 currentPanel=name;
 $$("#sidebar .nav-item").forEach(el=>el.classList.toggle("active",el.dataset.panel===name));
+renderTabBar();
+if(isMobile())closeSidebarDrawer();
 rerender();
+window.scrollTo(0,0);
 }
 function rerender(){
 const p=Panels[currentPanel];
@@ -2014,13 +2977,38 @@ if(p.init)p.init();
 //==================== SIDEBAR ====================
 function renderSidebar(){
 const activeId=currentPanel||"overview";
-const header=`<div class="sidebar-header"><div class="sidebar-title-row"><div class="sidebar-logo">🕸️</div><div class="sidebar-title">Liewkay's Workbench</div></div><div class="sidebar-tagline">工作 · 成长 · 每日精进</div></div>`;
+const header=`<div class="drawer-header"><button class="drawer-menu-btn" onclick="closeSidebarDrawer()" aria-label="关闭">☰</button><div class="drawer-title">Jane 的工作台</div></div>`;
 const body=MENU.map(cat=>{
-const items=cat.items.map(m=>`<div class="nav-item${m.id===activeId?" active":""}" data-panel="${m.id}" onclick="switchPanel('${m.id}')"><span class="icon">${m.icon}</span><span>${m.label}</span></div>`).join("");
-const descHtml=cat.desc?`<div class="nav-category-desc">${cat.desc}</div>`:"";
-return`<div class="nav-category"><div class="nav-category-title">${cat.category}</div>${descHtml}</div>${items}`;
+const items=cat.items.map(m=>`<div class="nav-item${m.id===activeId?" active":""}" data-panel="${m.id}" onclick="switchPanel('${m.id}')"><span class="nav-icon-box">${m.icon}</span><span>${m.label}</span></div>`).join("");
+return`<div class="drawer-section"><div class="drawer-section-title">${cat.category}</div>${items}</div>`;
 }).join("");
-$("#sidebar").innerHTML=header+body;
+const footer=`<div class="drawer-sync"><button class="btn btn-block">☁️ 同步到手机云端</button></div>`;
+$("#sidebar").innerHTML=header+body+footer;
+}
+
+//==================== TAB BAR ====================
+function renderTabBar(){
+const activeId=currentPanel||"overview";
+const html=TAB_BAR.map(t=>{
+const isActive=t.id!=="showDrawer"&&t.id===activeId;
+if(t.action==="openDrawer"){
+return`<button class="tab-bar-item ${isActive?"active":""} ${t.cls}" onclick="toggleSidebar()"><span class="tab-icon">${t.icon}</span><span>${t.label}</span></button>`;
+}
+return`<button class="tab-bar-item ${isActive?"active":""} ${t.cls}" onclick="switchPanel('${t.id}')"><span class="tab-icon">${t.icon}</span><span>${t.label}</span></button>`;
+}).join("");
+$("#tab-bar").innerHTML=html;
+}
+
+//==================== APP BAR ====================
+function renderAppBar(){
+const now=new Date();
+const weekDays=["日","一","二","三","四","五","六"];
+const dateStr=`${now.getMonth()+1}月${now.getDate()}日 周${weekDays[now.getDay()]}`;
+const el=$("#app-bar-date-text");
+if(el)el.textContent=dateStr;
+}
+function goHome(){
+switchPanel("overview");
 }
 
 //==================== REMINDERS ====================
@@ -2082,7 +3070,10 @@ generateAIData();rerender();
 //==================== INIT ====================
 function init(){
 Store.init();
+$("#app").classList.remove("sidebar-open");
+renderAppBar();
 renderSidebar();
+renderTabBar();
 rerender();
 // Request notification permission
 if("Notification"in window&&Notification.permission==="default"){
@@ -2099,6 +3090,9 @@ navigator.wakeLock.request("screen").catch(()=>{});
 }
 }
 document.addEventListener("DOMContentLoaded",init);
+window.addEventListener("resize",()=>{
+$("#app").classList.remove("sidebar-open");
+});
 // Prevent modal close on tap outside content
 $("#modal-overlay").addEventListener("click",e=>{if(e.target.id==="modal-overlay")closeModal()});
 </script>
