@@ -1,0 +1,61 @@
+{
+  "name": "Liewkay's Workbench",
+  "short_name": "Workbench",
+  "description": "一个面向个人的全功能工作台：待办、笔记、习惯、目标、阅读与数据总览，支持云端同步与系统级推送。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fafafa",
+  "theme_color": "#5e6ad2",
+  "categories": [
+    "productivity",
+    "utilities",
+    "personal"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "今日",
+      "url": "./?section=today",
+      "description": "今日中枢"
+    },
+    {
+      "name": "新建笔记",
+      "url": "./?section=notes&new=1",
+      "description": "快速记录"
+    },
+    {
+      "name": "新建待办",
+      "url": "./?section=today&new=todo",
+      "description": "添加待办"
+    }
+  ]
+}
